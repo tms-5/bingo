@@ -20,5 +20,4 @@ build/
 Thumbs.db
 
 /public/img
-/public/christmas-words-2.json
 package-lock.json
