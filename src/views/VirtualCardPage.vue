@@ -43,7 +43,7 @@ export default {
       if (savedCard) {
         this.cells = savedCard;
       } else {
-        const response = await fetch('/christmas-words-2.json');
+        const response = await fetch('/christmas-words.json');
         const words = await response.json();
         this.cells = this.shuffle(words).slice(0, 16).map((word) => ({
           word: word.word,
