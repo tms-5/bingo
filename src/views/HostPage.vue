@@ -49,7 +49,7 @@ export default {
     methods: {
         async loadItems() {
             if (!this.allItems.length) {
-                const response = await fetch('/christmas-words.json');
+                const response = await fetch('/christmas-words-2.json');
                 this.allItems = await response.json();
             }
         },
