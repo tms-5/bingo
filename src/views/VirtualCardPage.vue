@@ -1,6 +1,6 @@
 <template>
   <div class="virtual-card">
-    <h1>Cartela Virtual</h1>
+    <h1 class="c-blue-200 fw-700">Cartela Virtual</h1>
     <div class="controls">
       <button @click="resetCard">Resetar Cartela</button>
     </div>
