@@ -40,4 +40,8 @@ body {
   color: var(--text-color);
   transition: background-color 0.3s, color 0.3s;
 }
+
+html {
+  height: 100%;
+}
 </style>

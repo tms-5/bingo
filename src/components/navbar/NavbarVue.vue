@@ -47,6 +47,7 @@ export default {
     return {
         links: [
             { name: 'Home', url: '/' },
+            { name: 'Card game', url: '/card-game' },
             { name: 'Host a game', url: '/host' },
             { name: 'Print card', url: '/cards' },
             { name: 'Virtual card', url: '/virtual-card' },
