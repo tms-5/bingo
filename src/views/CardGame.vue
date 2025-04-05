@@ -37,46 +37,46 @@
     </div>
     -->
     <div v-if="gameEnded" class="scoreboard-container">
-  <h1>Game Over!</h1>
-  <h2>Final Scoreboard</h2>
-  <ul>
-    <li v-for="(player, index) in players" :key="index">
-        <img v-if="index === 0" src="https://cdn-icons-png.flaticon.com/128/1657/1657088.png" width="18px">        
-      <span :class="player.normalizedName">{{ player.name }}</span>: {{ player.score }}
-    </li>
-  </ul>
-  <button @click="restartGame">Restart Game</button>
-</div>
+      <h1>Game Over!</h1>
+      <h2>Final Scoreboard</h2>
+      <ul>
+        <li v-for="(player, index) in players" :key="index">
+          <img v-if="index === 0" src="https://cdn-icons-png.flaticon.com/128/1657/1657088.png" width="18px">
+          <span :class="player.normalizedName">{{ player.name }}</span>: {{ player.score }}
+        </li>
+      </ul>
+      <button @click="restartGame">Restart Game</button>
+    </div>
 
-<div v-else>
-  <!-- Existing game screen content -->
-  <div class="card">
-    <div class="container-card" :class="currentPlayer.bgClass">
-      <div
-        class="card__face card__face--front"
-        :class="{ active: cardFlipped }"
-        @click="flipCard">
-        <p>Flip the card!</p>
-      </div>
-      <div class="card__face" :class="{ active: !cardFlipped }">
-        <p>{{ prank.action }}</p>
-        <p class="conectivo">OU</p>
-        <p class="legend">{{ prank.legend }} {{ prank.shots }} shots!</p>
-        <div class="actions">
-          <button @click="handleXClick"><img src="https://cdn-icons-png.flaticon.com/128/16206/16206622.png" width="45px"></button>
-          <button @click="handleVClick"><img src="https://cdn-icons-png.flaticon.com/128/190/190411.png" width="45px"></button>
-          <button @click="handleShotsClick"><img src="https://cdn-icons-png.flaticon.com/128/1930/1930685.png" width="45px"></button>
+    <div v-else>
+      <!-- Existing game screen content -->
+      <div class="card">
+        <div class="container-card" :class="currentPlayer.bgClass">
+          <div class="card__face card__face--front" :class="{ active: cardFlipped }" @click="flipCard">
+            <p>Flip the card!</p>
+          </div>
+          <div class="card__face" :class="{ active: !cardFlipped }">
+            <p>{{ prank.action }}</p>
+            <p class="conectivo">OU</p>
+            <p class="legend">{{ prank.legend }} {{ prank.shots }} shots!</p>
+            <div class="actions">
+              <button @click="handleXClick"><img src="https://cdn-icons-png.flaticon.com/128/16206/16206622.png"
+                  width="45px"></button>
+              <button @click="handleVClick"><img src="https://cdn-icons-png.flaticon.com/128/190/190411.png"
+                  width="45px"></button>
+              <button @click="handleShotsClick"><img src="https://cdn-icons-png.flaticon.com/128/1930/1930685.png"
+                  width="45px"></button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
     <!-- Score -->
     <div class="scoreboard" v-if="!gameEnded">
       <h5>Scoreboard</h5>
       <ul>
         <li v-for="(player, index) in players" :key="index">
-            <img v-if="index === 0" src="https://cdn-icons-png.flaticon.com/128/1657/1657088.png" width="18px">
+          <img v-if="index === 0" src="https://cdn-icons-png.flaticon.com/128/1657/1657088.png" width="18px">
           <span :class="player.normalizedName">{{ player.name }}</span>: {{ player.score }}
         </li>
       </ul>
@@ -90,50 +90,40 @@
         <template v-if="modalAction === 'X'">
           <h2>
             Are you sure you want to lose {{ prank.shots }} points,
-            <span
-              :class="currentPlayer.normalizedName"
-              >{{ currentPlayer.name }}</span
-            >?
+            <span :class="currentPlayer.normalizedName">{{ currentPlayer.name }}</span>?
           </h2>
         </template>
         <template v-else-if="modalAction === 'V'">
           <h2>
-            Are you sure you did this, 
-            <span
-              :class="currentPlayer.normalizedName"
-              >{{ currentPlayer.name }}</span
-            >?
+            Are you sure you did this,
+            <span :class="currentPlayer.normalizedName">{{ currentPlayer.name }}</span>?
           </h2>
         </template>
         <template v-else-if="modalAction === 'shot'">
           <h2>
             Select the number of shots you want to add,
-            <span
-              :class="currentPlayer.normalizedName"
-              >{{ currentPlayer.name }}</span
-            >:
+            <span :class="currentPlayer.normalizedName">{{ currentPlayer.name }}</span>:
           </h2>
           <div class="shots-menu">
             <label v-for="n in parseInt(prank.shots)" :key="n">
               <input type="radio" :value="n" v-model="selectedShotValue" />
-              <img :src="selectedShotValue === n ? 'https://cdn-icons-png.flaticon.com/128/1930/1930685.png' : 'https://cdn-icons-png.flaticon.com/512/1930/1930733.png'" width="25px"> - 
+              <img
+                :src="selectedShotValue === n ? 'https://cdn-icons-png.flaticon.com/128/1930/1930685.png' : 'https://cdn-icons-png.flaticon.com/512/1930/1930733.png'"
+                width="25px"> -
               {{ n }}
             </label>
           </div>
         </template>
         <button @click="cancelAction">
-            <span v-if="modalAction === 'X'" >No, Im better then that</span>
-            <span v-else >No, I lied and now on I`ll do better.</span>
+          <span v-if="modalAction === 'X'">No, Im better then that</span>
+          <span v-else>No, I lied and now on I`ll do better.</span>
         </button>
-        <button
-          v-if="modalAction === 'shot'"
-          @click="confirmShots"
-          :disabled="!selectedShotValue">
+        <button v-if="modalAction === 'shot'" @click="confirmShots" :disabled="!selectedShotValue">
           OOOH YEAAAAH
         </button>
         <button v-if="modalAction !== 'shot'" @click="confirmAction">
-          <span v-if="modalAction === 'X'" >Yes, IM A FUCKING COWARD</span>
-            <span v-else >Yes, Im a fucking badass</span>
+          <span v-if="modalAction === 'X'">Yes, IM A FUCKING COWARD</span>
+          <span v-else>Yes, Im a fucking badass</span>
         </button>
       </div>
     </div>
@@ -151,6 +141,7 @@ export default {
         { name: "Alice", color: this.generateLightColor(), score: 0 },
         { name: "Luísa", color: this.generateLightColor(), score: 0 },
         { name: "Renata", color: this.generateLightColor(), score: 0 },
+        { name: "Carol", color: this.generateLightColor(), score: 0 },
       ],
       scores: [],
       gameStarted: false,
@@ -174,7 +165,7 @@ export default {
       return `rgb(${r}, ${g}, ${b})`;
     },
     appendDynamicCSS(player, color) {
-    const normalizedName = player.name.toLowerCase().replace(/\s+/g, "-");
+      const normalizedName = player.name.toLowerCase().replace(/\s+/g, "-");
       const className = `bg-${normalizedName}-box`;
       const gradient = `linear-gradient(71deg, ${color}, ${this.darkenColor(color, 0.8)}, ${color})`;
 
@@ -188,7 +179,7 @@ export default {
         }
       `;
       document.head.appendChild(style);
-      return {className, normalizedName};
+      return { className, normalizedName };
     },
     darkenColor(color, factor) {
       const rgb = color
@@ -233,7 +224,7 @@ export default {
       if (this.gameEnded) {
         return; // Do nothing if the game has ended
       }
-      
+
       setTimeout(() => {
         this.currentPlayerIndex =
           (this.currentPlayerIndex + 1) % this.players.length;
@@ -270,40 +261,40 @@ export default {
       this.modalAction = "shot";
     },
     confirmShots() {
-    if (this.selectedShotValue) {
+      if (this.selectedShotValue) {
         this.updateScore(this.currentPlayer, parseInt(this.selectedShotValue));
-      this.showModal = false;
-      this.selectedShotValue = null;
-    }
-    this.nextTurn();
-  },
-  confirmAction() {
-    if (this.modalAction === "X") {
+        this.showModal = false;
+        this.selectedShotValue = null;
+      }
+      this.nextTurn();
+    },
+    confirmAction() {
+      if (this.modalAction === "X") {
         this.updateScore(this.currentPlayer, -parseInt(this.prank.shots));
-    } else if (this.modalAction === "V") {
+      } else if (this.modalAction === "V") {
         this.updateScore(this.currentPlayer, parseInt(this.prank.shots));
-    }
-    this.showModal = false;
-    this.nextTurn();
-  },
+      }
+      this.showModal = false;
+      this.nextTurn();
+    },
     cancelAction() {
       this.showModal = false;
       this.selectedShotValue = null;
     },
     updateScore(player, value) {
-        const playerIndex = this.players.findIndex((p) => p.name === player.name);
-        if (playerIndex !== -1) {
-                this.players[playerIndex].score += value;
-        } else {
-                this.players.push({ name: player.name, score: value });
-        }
-        this.players.sort((a, b) => b.score - a.score);
+      const playerIndex = this.players.findIndex((p) => p.name === player.name);
+      if (playerIndex !== -1) {
+        this.players[playerIndex].score += value;
+      } else {
+        this.players.push({ name: player.name, score: value });
+      }
+      this.players.sort((a, b) => b.score - a.score);
     },
     restartGame() {
-          this.gameEnded = false;
-          this.usedActions = [];
-          this.players.forEach((player) => (player.score = 0)); // Reset scores
-          this.startGame(); // Restart the game
+      this.gameEnded = false;
+      this.usedActions = [];
+      this.players.forEach((player) => (player.score = 0)); // Reset scores
+      this.startGame(); // Restart the game
     },
   },
   async mounted() {
@@ -315,9 +306,10 @@ export default {
 
 <style scoped>
 #app {
-    height: calc(100vh - 50px);
-    align-content: center;
+  height: calc(100vh - 50px);
+  align-content: center;
 }
+
 .player-setup {
   max-width: 400px;
   margin: 0 auto;
@@ -350,6 +342,7 @@ button {
 .game-screen {
   max-width: 40vw;
   margin: 0 auto;
+  min-width: 300px;
 }
 
 .card__face {
@@ -361,25 +354,25 @@ button {
   backface-visibility: hidden;
   transition: 1s ease-in-out;
   align-content: center;
-    &.active {
+
+  &.active {
     transform: rotateY(0.5turn);
+  }
+
+   p {
+    max-width: 80%;
+    justify-self: center;
+
+    &.conectivo {
+      color: #6d6d6d;
+      font-size: 12px;
     }
-    &.:not(.active) {
-        opacity: 0;
-    transform: rotateY(0);
+
+    &.legend {
+      color: #9db6ca;
+      font-size: 16px;
     }
-    p {
-        max-width: 80%;
-        justify-self: center;
-        &.conectivo {
-            color: #6d6d6d;
-            font-size: 12px;
-        }
-        &.legend {
-            color: #9db6ca;
-            font-size: 16px;
-        }
-    }
+  }
 }
 
 .card__face--front {
@@ -447,8 +440,8 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-  z-index: 999; /* Ensure it appears behind the modal */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .modal {
@@ -461,7 +454,8 @@ button {
   border-radius: 10px;
   font-size: 18px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* Ensure it appears above the overlay */
+  z-index: 1000;
+  /* Ensure it appears above the overlay */
   color: black;
   width: 30vw;
   min-width: 500px;
@@ -473,6 +467,7 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
+
 .shots-menu {
   margin-top: 10px;
   display: flex;
@@ -494,17 +489,16 @@ button {
 }
 
 ul {
-    text-align: left;
-    
-    li {
+  text-align: left;
+
+  li {
     list-style: none;
     font-size: 16px;
     text-align: left;
-}
+  }
 }
 
 .scoreboard-container ul li {
-    font-size: 25px;
+  font-size: 25px;
 }
-
 </style>
