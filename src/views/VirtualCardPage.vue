@@ -13,7 +13,7 @@
         :style="{ backgroundColor: cell.color }"
         @click="toggleCell(index)">
         <img :src="cell.image" :alt="cell.word" class="word-image" />
-        <p>{{ cell.word }}</p>
+        <p class="word-text">{{ cell.word }}</p>
       </div>
     </div>
     <div v-if="bingo" class="bingo-overlay">
