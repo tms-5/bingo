@@ -52,7 +52,7 @@ export default {
   methods: {
     async fetchWords() {
       if (!this.allWords.length) {
-        const response = await fetch('/christmas-words.json');
+        const response = await fetch('/christmas-words-2.json');
         this.allWords = await response.json();
         document.documentElement.style.setProperty('--items-per-line', 4);
       }
