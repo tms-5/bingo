@@ -1,5 +1,5 @@
 <template>
-  <NavbarVue />
+  <NavbarVue class="no-print" />
   <div id="app" class="container">
     <router-view />
   </div>
@@ -43,5 +43,27 @@ body {
 
 html {
   height: 100%;
+}
+
+/* Estilos globais de impressão */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .container {
+    background: white !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
 }
 </style>

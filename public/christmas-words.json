@@ -2,156 +2,187 @@
   {
     "word": "Árvore",
     "color": "#7dc87d",
-    "image": "https://cdn-icons-png.flaticon.com/512/9228/9228259.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/9228/9228259.png",
+    "number": 1
   },
   {
     "word": "Estrela",
     "color": "#FFD700",
-    "image": "https://cdn-icons-png.flaticon.com/512/1366/1366856.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/1366/1366856.png",
+    "number": 2
   },
   {
     "word": "Presente",
     "color": "#ff8256",
-    "image": "https://cdn-icons-png.flaticon.com/512/3726/3726259.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/3726/3726259.png",
+    "number": 3
   },
   {
     "word": "Papai Noel",
     "color": "#ff9595",
-    "image": "https://cdn-icons-png.flaticon.com/512/6235/6235300.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/6235/6235300.png",
+    "number": 4
   },
   {
     "word": "Trenó",
     "color": "#83c7ff",
-    "image": "https://cdn-icons-png.flaticon.com/512/9155/9155590.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/9155/9155590.png",
+    "number": 5
   },
   {
     "word": "Rena",
     "color": "#f59752",
-    "image": "https://cdn-icons-png.flaticon.com/512/621/621698.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/621/621698.png",
+    "number": 6
   },
   {
     "word": "Sinos",
     "color": "#FFD700",
-    "image": "https://cdn-icons-png.flaticon.com/512/1387/1387018.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/1387/1387018.png",
+    "number": 7
   },
   {
     "word": "Guirlanda",
     "color": "#028c3b8a",
-    "image": "https://cdn-icons-png.flaticon.com/512/2331/2331397.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/2331/2331397.png",
+    "number": 8
   },
   {
     "word": "Luzes",
     "color": "#FFFF00",
-    "image": "https://cdn-icons-png.flaticon.com/512/3751/3751572.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/3751/3751572.png",
+    "number": 9
   },
   {
     "word": "Bola de Natal",
     "color": "#83bd82",
-    "image": "https://cdn-icons-png.flaticon.com/512/2286/2286472.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/2286/2286472.png",
+    "number": 10
   },
   {
     "word": "Floco",
     "color": "#ADD8E6",
-    "image": "https://cdn-icons-png.flaticon.com/512/6202/6202562.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/6202/6202562.png",
+    "number": 11
   },
   {
     "word": "Alegria",
     "color": "#FFA500",
-    "image": "https://cdn-icons-png.flaticon.com/512/3695/3695411.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/3695/3695411.png",
+    "number": 12
   },
   {
     "word": "Família",
     "color": "#ffa667",
-    "image": "https://cdn-icons-png.flaticon.com/512/3695/3695380.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/3695/3695380.png",
+    "number": 13
   },
   {
     "word": "Ceia",
     "color": "#D2691E",
-    "image": "https://cdn-icons-png.flaticon.com/512/8732/8732445.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/8732/8732445.png",
+    "number": 14
   },
   {
     "word": "Chaminé",
     "color": "#be7e6d",
-    "image": "https://cdn-icons-png.flaticon.com/512/9204/9204869.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/9204/9204869.png",
+    "number": 15
   },
   {
     "word": "Panetone",
     "color": "#DEB887",
-    "image": "https://cdn-icons-png.flaticon.com/512/17608/17608389.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/17608/17608389.png",
+    "number": 16
   },
   {
     "word": "Gorro",
     "color": "#ffbabc",
-    "image": "https://cdn-icons-png.flaticon.com/512/2276/2276501.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/2276/2276501.png",
+    "number": 17
   },
   {
     "word": "Vela",
     "color": "#ff8e94",
-    "image": "https://cdn-icons-png.flaticon.com/512/9103/9103879.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/9103/9103879.png",
+    "number": 18
   },
   {
     "word": "Jesus",
     "color": "#FFFFE0",
-    "image": "https://cdn-icons-png.flaticon.com/512/1197/1197851.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/1197/1197851.png",
+    "number": 19
   },
   {
     "word": "Globo de neve",
     "color": "#81c6dd",
-    "image": "https://cdn-icons-png.flaticon.com/512/6375/6375396.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/6375/6375396.png",
+    "number": 20
   },
   {
     "word": "Feriado",
     "color": "#DAA520",
-    "image": "https://cdn-icons-png.flaticon.com/512/4727/4727365.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/4727/4727365.png",
+    "number": 21
   },
   {
     "word": "Elfo",
     "color": "#1eaa42",
-    "image": "https://cdn-icons-png.flaticon.com/512/6263/6263914.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/6263/6263914.png",
+    "number": 22
   },
   {
     "word": "Ho Ho Ho",
     "color": "#ff7878",
-    "image": "https://cdn-icons-png.flaticon.com/512/6271/6271990.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/6271/6271990.png",
+    "number": 23
   },
   {
     "word": "Lareira",
     "color": "#ef803985",
-    "image": "https://cdn-icons-png.flaticon.com/512/9120/9120699.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/9120/9120699.png",
+    "number": 24
   },
   {
     "word": "Laço",
     "color": "#FF69B4",
-    "image": "https://cdn-icons-png.flaticon.com/512/8095/8095623.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/8095/8095623.png",
+    "number": 25
   },
   {
     "word": "Meias",
     "color": "#FF6347",
-    "image": "https://cdn-icons-png.flaticon.com/512/6263/6263654.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/6263/6263654.png",
+    "number": 26
   },
   {
     "word": "Boneco de Neve",
     "color": "#d2d2d2",
-    "image": "https://cdn-icons-png.flaticon.com/512/1409/1409254.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/1409/1409254.png",
+    "number": 27
   },
   {
     "word": "Visco",
     "color": "#a1f7a1",
-    "image": "https://cdn-icons-png.flaticon.com/512/6402/6402713.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/6402/6402713.png",
+    "number": 28
   },
   {
     "word": "Bastão doce",
     "color": "#FFD700",
-    "image": "https://cdn-icons-png.flaticon.com/512/3132/3132707.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/3132/3132707.png",
+    "number": 29
   },
   {
     "word": "Grinch",
     "color": "#88ad72",
-    "image": "https://cdn-icons-png.flaticon.com/512/616/616055.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/616/616055.png",
+    "number": 30
   },
   {
     "word": "Chocolate quente",
     "color": "#D2691E",
-    "image": "https://cdn-icons-png.flaticon.com/512/9021/9021140.png"
+    "image": "https://cdn-icons-png.flaticon.com/512/9021/9021140.png",
+    "number": 31
   }
 ]

@@ -207,10 +207,10 @@ h2 {
 
 .card {
   background: var(--bingo-blue-900, #0e1b2d);
-  border: 1px solid var(--bingo-blue-200, #5db1ff);
+  border: 1px solid var(--bingo-blue-200, #00498d);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 32px rgba(206, 206, 206, 0.25);
 }
 
 .names-grid {
@@ -253,10 +253,10 @@ h2 {
 }
 
 .team-card {
-  border: 1px solid var(--bingo-blue-200, #5db1ff);
+  border: 1px solid var(--bingo-blue-200, #004a90);
   border-radius: 8px;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(50, 31, 80, 0.03);
 }
 
 label {
@@ -270,9 +270,9 @@ button {
   gap: 6px;
   padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid var(--bingo-blue-200, #5db1ff);
+  border: 1px solid var(--bingo-blue-200, #00488b);
   background: var(--bingo-blue-200, #5db1ff);
-  color: #0e1b2d;
+  color: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
 }

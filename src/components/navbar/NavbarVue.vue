@@ -47,11 +47,10 @@ export default {
     return {
         links: [
             { name: 'Home', url: '/' },
-            { name: 'Card game', url: '/card-game' },
-            { name: 'Host a game', url: '/host' },
-            { name: 'Print card', url: '/cards' },
-            { name: 'Virtual card', url: '/virtual-card' },
-            { name: 'Sorter', url: '/sorter' },
+            { name: 'Entrar na sala', url: '/join-room' },
+            { name: 'Criar sala', url: '/create-room' },
+            { name: 'Entrar como host', url: '/host-login' },
+            { name: 'Gerar cartelas', url: '/card' },
         ],
     };
   },
