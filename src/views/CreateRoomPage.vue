@@ -136,13 +136,14 @@ export default {
         this.roomCreated = true;
         
         // Salva no localStorage para reconexão
-        localStorage.setItem('host_room', JSON.stringify({
+        const { SessionManager } = await import('../utils/session.js');
+        SessionManager.saveHostSession({
           room_id: data.room_id,
           room_name: data.room_name,
-          password: this.password,
+          password: this.password_admin || this.password,
           theme: this.theme,
           card_size: this.card_size,
-        }));
+        });
       } catch (error) {
         this.error = error.message;
       } finally {
@@ -160,6 +161,20 @@ export default {
       navigator.clipboard.writeText(this.room_id);
       alert('ID da sala copiado!');
     },
+  },
+  async mounted() {
+    // Verifica se há sessão de host válida
+    const { SessionManager } = await import('../utils/session.js');
+    const verification = await SessionManager.verifyHostSession();
+    
+    if (verification.valid) {
+      // Sessão válida, redireciona automaticamente
+      this.$router.push({
+        name: 'HostRoom',
+        params: { room_id: verification.session.room_id },
+        query: { password: verification.session.password },
+      });
+    }
   },
 };
 </script>

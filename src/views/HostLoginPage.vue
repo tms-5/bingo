@@ -87,13 +87,14 @@ export default {
         const data = await response.json();
         
         // Salva no localStorage para reconexão
-        localStorage.setItem('host_room', JSON.stringify({
+        const { SessionManager } = await import('../utils/session.js');
+        SessionManager.saveHostSession({
           room_id: data.room.room_id,
           room_name: data.room.room_name,
           password: this.password,
           theme: data.room.theme,
           card_size: data.room.card_size,
-        }));
+        });
         
         // Redireciona para a tela do host
         this.$router.push({
@@ -109,16 +110,25 @@ export default {
       }
     },
   },
-  mounted() {
-    // Tenta recuperar sessão anterior
-    const savedRoom = localStorage.getItem('host_room');
-    if (savedRoom) {
-      try {
-        const roomData = JSON.parse(savedRoom);
-        this.room_id = roomData.room_id;
-      } catch (e) {
-        // Ignora erro
-      }
+  async mounted() {
+    // Verifica se há sessão válida
+    const { SessionManager } = await import('../utils/session.js');
+    const verification = await SessionManager.verifyHostSession();
+    
+    if (verification.valid) {
+      // Sessão válida, redireciona automaticamente
+      this.$router.push({
+        name: 'HostRoom',
+        params: { room_id: verification.session.room_id },
+        query: { password: verification.session.password },
+      });
+      return;
+    }
+    
+    // Se não for válida, preenche campos com dados salvos
+    const savedSession = SessionManager.getHostSession();
+    if (savedSession) {
+      this.room_id = savedSession.room_id || '';
     }
   },
 };

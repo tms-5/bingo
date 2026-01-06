@@ -9,6 +9,10 @@
         >
       </div>
       <DarkMode />
+      <div v-if="hasSession" class="session-info">
+        <span class="session-text">{{ sessionText }}</span>
+        <button @click="logout" class="btn-logout" title="Sair">🚪</button>
+      </div>
       <input type="radio" name="slider" id="menu-btn" />
       <input type="radio" name="slider" id="close-btn" />
       <ul class="nav-links">
@@ -24,7 +28,16 @@
           </svg>
         </label>
         <li v-for="(link, index) in links" :key="index">
-         <router-link :to="link.url">{{ link.name }}</router-link>
+         <router-link 
+           :to="link.url" 
+           @click="closeMobileMenu"
+           :class="{ 'router-link-active': isActiveRoute(link.url) }"
+         >
+           {{ link.name }}
+         </router-link>
+        </li>
+        <li v-if="hasSession" class="mobile-logout">
+          <a @click="logout" class="logout-link">🚪 Sair</a>
         </li>
       </ul>
       <label for="menu-btn" class="btn menu-btn">
@@ -38,6 +51,8 @@
 
 <script>
 import DarkMode from './DarkMode.vue';
+import { SessionManager } from '../../utils/session.js';
+
 export default {
   name: 'NavbarVue',
   components: {
@@ -52,7 +67,63 @@ export default {
             { name: 'Entrar como host', url: '/host-login' },
             { name: 'Gerar cartelas', url: '/card' },
         ],
+        hasSession: false,
+        sessionText: '',
     };
+  },
+  mounted() {
+    this.checkSession();
+    // Verifica sessão quando a rota muda
+    this.$watch(() => this.$route.path, () => {
+      this.checkSession();
+    });
+  },
+  methods: {
+    checkSession() {
+      const userSession = SessionManager.getUserSession();
+      const hostSession = SessionManager.getHostSession();
+      
+      if (userSession) {
+        this.hasSession = true;
+        this.sessionText = `👤 ${userSession.user_name} - Sala: ${userSession.room_id}`;
+      } else if (hostSession) {
+        this.hasSession = true;
+        this.sessionText = `🎮 Host - Sala: ${hostSession.room_id}`;
+      } else {
+        this.hasSession = false;
+        this.sessionText = '';
+      }
+    },
+    logout() {
+      if (confirm('Tem certeza que deseja sair?')) {
+        SessionManager.clearAllSessions();
+        this.hasSession = false;
+        this.sessionText = '';
+        this.closeMobileMenu();
+        
+        // Redireciona para home se não estiver lá
+        if (this.$route.path !== '/') {
+          this.$router.push('/');
+        } else {
+          // Força atualização da página
+          window.location.reload();
+        }
+      }
+    },
+    closeMobileMenu() {
+      // Fecha o menu mobile ao clicar em um link
+      const closeBtn = document.getElementById('close-btn');
+      if (closeBtn) {
+        closeBtn.checked = true;
+      }
+    },
+    isActiveRoute(url) {
+      // Verifica se a rota atual corresponde ao link
+      if (url === '/') {
+        return this.$route.path === '/';
+      }
+      return this.$route.path.startsWith(url);
+    },
   },
 };
 </script>
@@ -96,6 +167,53 @@ nav .wrapper {
     text-decoration: none;
 }
 
+.session-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+.session-text {
+    font-size: 14px;
+    color: var(--navbar-color);
+    opacity: 0.9;
+}
+
+.btn-logout {
+    background: transparent;
+    border: 1px solid var(--navbar-color);
+    color: var(--navbar-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: var(--hover-navbar);
+    opacity: 1;
+}
+
+.mobile-logout {
+    display: none;
+}
+
+.logout-link {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 970px) {
+    .session-info {
+        display: none;
+    }
+    
+    .mobile-logout {
+        display: block;
+    }
+}
+
 .wrapper .nav-links {
     display: inline-flex;
     z-index: 99;
@@ -119,6 +237,12 @@ nav .wrapper {
 
 .nav-links li a:hover {
     background: var(--hover-navbar);
+}
+
+.nav-links li a.router-link-active {
+    background: var(--hover-navbar);
+    font-weight: 600;
+    color: var(--bingo-blue-200);
 }
 
 .nav-links .mobile-item {

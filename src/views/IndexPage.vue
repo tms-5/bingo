@@ -277,6 +277,17 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
 }
+@media (max-width: 900px) {
+  .steps-container {
+    flex-direction: column;
+  }
+  .steps-container .step {
+    width: 100%;
+  }
+  .technical-value, .step-content p, .feature-card p {
+    font-size: 1.2rem !important;
+  }
+}
 
 .step {
   display: flex;

@@ -5,11 +5,7 @@
         <h1 class="c-blue-200 fw-700">{{ room_name }}</h1>
         <div class="user-info">
           <div class="avatar-container" @click="showAvatarSelector = true" title="Clique para alterar avatar">
-            <img 
-              :src="getAvatarPath(userAvatar)" 
-              :alt="`Avatar ${userAvatar}`"
-              class="user-avatar"
-            />
+            <img :src="getAvatarPath(userAvatar)" :alt="`Avatar ${userAvatar}`" class="user-avatar" />
             <span class="avatar-edit-icon">✏️</span>
           </div>
           <div class="user-details">
@@ -34,21 +30,11 @@
         <div class="bingo-card-wrapper">
           <h3>Minha Cartela</h3>
           <div class="bingo-grid">
-            <div
-              v-for="(row, rowIndex) in card"
-              :key="rowIndex"
-              class="bingo-row"
-            >
-              <div
-                v-for="(cell, colIndex) in row"
-                :key="colIndex"
-                class="bingo-cell"
-                :class="{ 
-                  marked: isMarked(cell.number, 0)
-                }"
-                :style="{ backgroundColor: (cell && cell.color) ? cell.color : '#f0f0f0' }"
-                @click="toggleMark(cell.number, 0)"
-              >
+            <div v-for="(row, rowIndex) in card" :key="rowIndex" class="bingo-row">
+              <div v-for="(cell, colIndex) in row" :key="colIndex" class="bingo-cell" :class="{
+                marked: isMarked(cell.number, 0)
+              }" :style="{ backgroundColor: (cell && cell.color) ? cell.color : '#f0f0f0' }"
+                @click="toggleMark(cell.number, 0)">
                 <div class="cell-content">
                   <img v-if="cell && cell.image" :src="cell.image" :alt="cell.word || 'Item'" class="cell-image" />
                   <span v-if="cell && cell.word" class="cell-word">{{ cell.word }}</span>
@@ -63,11 +49,7 @@
       <div class="drawn-numbers-container">
         <h3>2 Últimos Números Sorteados</h3>
         <div class="drawn-numbers">
-          <span 
-            v-for="num in drawnNumbers" 
-            :key="num" 
-            class="drawn-number"
-          >
+          <span v-for="num in drawnNumbers" :key="num" class="drawn-number">
             {{ getDrawnNumberDisplay(num) }}
           </span>
         </div>
@@ -75,11 +57,7 @@
 
       <!-- Botão Bingo -->
       <div class="bingo-button-container">
-        <button 
-          @click="claimBingo" 
-          :disabled="bingoClaimed || isWinner"
-          class="btn-bingo"
-        >
+        <button @click="claimBingo" :disabled="bingoClaimed || isWinner" class="btn-bingo">
           {{ bingoClaimed ? 'Bingo Já Reivindicado' : isWinner ? 'Você Ganhou!' : 'BINGO!' }}
         </button>
       </div>
@@ -88,16 +66,11 @@
       <div v-if="bingoClaims.length > 0" class="results-container">
         <h3>Resultados</h3>
         <div class="claims-list">
-          <div 
-            v-for="(claim, index) in bingoClaims" 
-            :key="index"
-            class="claim-item"
-            :class="{ 
-              valid: claim.is_valid, 
-              invalid: !claim.is_valid,
-              winner: claim.is_valid && claim.user_id === user_id
-            }"
-          >
+          <div v-for="(claim, index) in bingoClaims" :key="index" class="claim-item" :class="{
+            valid: claim.is_valid,
+            invalid: !claim.is_valid,
+            winner: claim.is_valid && claim.user_id === user_id
+          }">
             <span class="claim-order">{{ index + 1 }}º</span>
             <span class="claim-name">{{ claim.user_name }}</span>
             <span class="claim-status">
@@ -121,15 +94,11 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Modal de seleção de avatar -->
     <div v-if="showAvatarSelector" class="modal-overlay" @click="showAvatarSelector = false">
       <div class="modal-content avatar-modal" @click.stop>
-        <AvatarSelector
-          :current-avatar="userAvatar"
-          @select="handleAvatarSelect"
-          @close="showAvatarSelector = false"
-        />
+        <AvatarSelector :current-avatar="userAvatar" @select="handleAvatarSelect" @close="showAvatarSelector = false" />
       </div>
     </div>
 
@@ -174,23 +143,35 @@ export default {
     };
   },
   async mounted() {
-    // Recupera sessão do localStorage
-    const session = localStorage.getItem('user_session');
-    if (!session) {
+    // Verifica sessão usando SessionManager
+    const { SessionManager } = await import('../utils/session.js');
+    const verification = await SessionManager.verifyUserSession();
+    
+    if (!verification.valid) {
+      // Sessão inválida, limpa e redireciona
+      SessionManager.clearUserSession();
+      alert(verification.reason || 'Sessão expirada. Por favor, faça login novamente.');
       this.$router.push('/join-room');
       return;
     }
 
-    const sessionData = JSON.parse(session);
+    const sessionData = verification.session;
     this.room_id = this.$route.params.room_id || sessionData.room_id;
     this.user_id = sessionData.user_id;
     this.user_name = sessionData.user_name;
-    this.room_name = sessionData.room_name;
-    this.userAvatar = sessionData.avatar || 1;
+    this.room_name = verification.room?.room_name || sessionData.room_name;
+    this.userAvatar = verification.user?.avatar || sessionData.avatar || 1;
+    
+    // Atualiza sessão com dados mais recentes
+    SessionManager.saveUserSession({
+      ...sessionData,
+      room_name: this.room_name,
+      avatar: this.userAvatar,
+    });
 
     // Aguarda carregar dados da sala primeiro para ter theme e card_size
     await this.loadRoomData();
-    
+
     // Garante que temos theme e card_size (usa valores padrão se necessário)
     if (!this.theme) {
       const { themes } = await import('../config/themes.js');
@@ -201,7 +182,7 @@ export default {
       console.warn('card_size não disponível, usando padrão: 16');
       this.card_size = 16;
     }
-    
+
     // Verifica se o usuário já tem cartela no banco e carrega avatar
     const user = await this.getUserFromServer();
     if (user && user.avatar) {
@@ -216,15 +197,15 @@ export default {
     if (user && user.cards && user.cards.length > 0 && user.cards[0] && user.cards[0].length > 0) {
       // Usuário já tem cartela no servidor, carrega ela
       // Verifica se a cartela tem image e color, se não, precisa recarregar do tema
-      const needsReload = user.cards[0].some(row => 
+      const needsReload = user.cards[0].some(row =>
         row.some(cell => !cell.image || !cell.color)
       );
-      
+
       if (needsReload) {
         console.log('Cartela do servidor sem image/color, recarregando do tema...');
         await this.loadTheme();
         // Recarrega os dados do tema para cada célula
-        this.card = user.cards[0].map(row => 
+        this.card = user.cards[0].map(row =>
           row.map(cell => {
             if (cell && cell.number && this.themeData) {
               // Busca pelo campo number do JSON
@@ -246,13 +227,13 @@ export default {
       } else {
         this.card = user.cards[0];
         // Verifica se realmente tem todos os dados
-        const hasAllData = this.card.every(row => 
+        const hasAllData = this.card.every(row =>
           row.every(cell => cell && cell.image && cell.color && cell.word)
         );
         if (!hasAllData) {
           console.log('Cartela do servidor não tem todos os dados, recarregando do tema...');
           await this.loadTheme();
-          this.card = this.card.map(row => 
+          this.card = this.card.map(row =>
             row.map(cell => {
               if (cell && cell.number && this.themeData) {
                 // Busca pelo campo number do JSON
@@ -272,12 +253,12 @@ export default {
           this.saveCard();
         }
       }
-      
+
       // Garante que o tema está carregado para exibir números sorteados
       if (!this.themeData || this.themeData.length === 0) {
         await this.loadTheme();
       }
-      
+
       this.cardsGenerated = true;
       this.loadingTheme = false;
       // Tenta recuperar números marcados do localStorage (usando room_id)
@@ -291,23 +272,23 @@ export default {
       } else {
         this.markedNumbers = { 0: [] };
       }
-      } else {
-        // Tenta recuperar cartela salva do localStorage usando room_id como identificador
-        const savedCard = localStorage.getItem(`card_${this.room_id}_${this.user_name}`);
+    } else {
+      // Tenta recuperar cartela salva do localStorage usando room_id como identificador
+      const savedCard = localStorage.getItem(`card_${this.room_id}_${this.user_name}`);
       if (savedCard) {
         try {
           const cardData = JSON.parse(savedCard);
           if (cardData.card && Array.isArray(cardData.card) && cardData.card.length > 0) {
             // Verifica se precisa recarregar dados do tema
-            const needsReload = cardData.card.some(row => 
+            const needsReload = cardData.card.some(row =>
               row.some(cell => !cell.image || !cell.color)
             );
-            
+
             if (needsReload) {
               console.log('Cartela do localStorage sem image/color, recarregando do tema...');
               await this.loadTheme();
               // Recarrega os dados do tema para cada célula
-              this.card = cardData.card.map(row => 
+              this.card = cardData.card.map(row =>
                 row.map(cell => {
                   if (cell.number && this.themeData) {
                     // Busca pelo campo number do JSON
@@ -327,12 +308,12 @@ export default {
             } else {
               this.card = cardData.card;
             }
-            
+
             // Garante que o tema está carregado para exibir números sorteados
             if (!this.themeData || this.themeData.length === 0) {
               await this.loadTheme();
             }
-            
+
             this.markedNumbers = cardData.markedNumbers || { 0: [] };
             this.cardsGenerated = true;
             this.loadingTheme = false;
@@ -365,22 +346,22 @@ export default {
           console.error('room_id não disponível');
           return;
         }
-        
+
         const response = await fetch(`/api/get-room?room_id=${this.room_id}`);
-        
+
         if (!response.ok) {
           throw new Error(`Erro ao buscar sala: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (!data.room) {
           throw new Error('Sala não encontrada na resposta');
         }
-        
+
         this.drawnNumbers = data.room.drawn_numbers.slice(data.room.drawn_numbers.length - 2).reverse();
         this.bingoClaims = data.room.bingo_claims || [];
-        
+
         // Atualiza theme e card_size (usa valores padrão se não existirem)
         if (!this.theme && !data.room.theme) {
           const { themes } = await import('../config/themes.js');
@@ -389,12 +370,12 @@ export default {
           this.theme = data.room.theme || this.theme;
         }
         this.card_size = data.room.card_size || this.card_size || 16;
-        
+
         // Atualiza room_name se estiver na resposta
         if (data.room.room_name) {
           this.room_name = data.room.room_name;
         }
-        
+
         // Verifica se o usuário já ganhou
         if (data.users) {
           const user = data.users.find(u => u.user_id === this.user_id);
@@ -429,11 +410,11 @@ export default {
         }
         return;
       }
-      
+
       if (this.themeData.length > 0) {
         return; // Já tem dados carregados
       }
-      
+
       this.loadingTheme = true;
       try {
         // Carrega o JSON do tema
@@ -441,19 +422,19 @@ export default {
         const { getThemePath } = await import('../config/themes.js');
         const themePath = getThemePath(this.theme);
         console.log('Carregando tema:', themePath);
-        
+
         const response = await fetch(themePath);
         if (!response.ok) {
           throw new Error(`Erro ao carregar tema: ${response.status} ${response.statusText}`);
         }
-        
+
         const data = await response.json();
         console.log('Tema carregado:', data?.length, 'itens');
-        
+
         if (!data || !Array.isArray(data) || data.length === 0) {
           throw new Error('Tema vazio ou formato inválido');
         }
-        
+
         this.themeData = data;
       } catch (error) {
         console.error('Erro ao carregar tema:', error);
@@ -472,23 +453,23 @@ export default {
             card_size: this.card_size,
             room_id: this.room_id
           });
-          
+
           // Tenta carregar novamente os dados da sala
           await this.loadRoomData();
-          
+
           if (!this.theme || !this.card_size) {
             throw new Error('Theme ou card_size não disponíveis após recarregar dados da sala');
           }
         }
-        
+
         // Carrega o tema
         await this.loadTheme();
-        
+
         // Verifica se o tema foi carregado corretamente
         if (!this.themeData || this.themeData.length === 0) {
           throw new Error('Tema não carregado ou vazio após tentativa de carregamento');
         }
-        
+
         // Gera a cartela
         this.generateCard();
       } catch (error) {
@@ -504,20 +485,20 @@ export default {
         this.loadingTheme = false;
         return;
       }
-      
+
       try {
         // Calcula dimensões da cartela (ex: 25 = 5x5, 16 = 4x4)
         const size = Math.sqrt(this.card_size);
         const rows = Math.floor(size);
         const cols = Math.ceil(this.card_size / rows);
-        
+
         // Embaralha os dados do tema
         const shuffled = [...this.themeData].sort(() => Math.random() - 0.5);
-        
+
         // Gera a cartela
         this.card = [];
         let itemIndex = 0;
-        
+
         for (let i = 0; i < rows; i++) {
           const row = [];
           for (let j = 0; j < cols && itemIndex < this.card_size; j++) {
@@ -531,38 +512,38 @@ export default {
               color: item.color || '#f0f0f0',
               image: item.image || '',
             };
-            
+
             // Valida que tem todos os dados
             if (!cellData.image || !cellData.color || !cellData.word) {
               console.warn('Célula gerada sem dados completos:', cellData, 'Item original:', item);
             }
-            
+
             row.push(cellData);
             itemIndex++;
           }
           this.card.push(row);
         }
-        
+
         console.log('Cartela gerada - primeira célula:', this.card[0]?.[0]); // Log para debug
         console.log('Tema carregado com', this.themeData.length, 'itens');
         console.log('Primeiro item do tema:', this.themeData[0]);
-        
+
         // Verifica se todas as células têm image e color
-        const allCellsHaveData = this.card.every(row => 
+        const allCellsHaveData = this.card.every(row =>
           row.every(cell => cell && cell.image && cell.color && cell.word)
         );
         console.log('Todas as células têm dados completos?', allCellsHaveData);
-        
+
         // Define CSS variable para grid
         this.$nextTick(() => {
           const root = document.documentElement;
           root.style.setProperty('--cols', cols);
         });
-        
+
         this.cardsGenerated = true;
         this.markedNumbers = { 0: [] };
         this.loadingTheme = false;
-        
+
         // Salva cartela
         this.saveCard();
       } catch (error) {
@@ -578,18 +559,18 @@ export default {
     },
     toggleMark(number, cardIndex) {
       if (!number || this.bingoClaimed || this.isWinner) return;
-      
+
       if (!this.markedNumbers[cardIndex]) {
         this.markedNumbers[cardIndex] = [];
       }
-      
+
       const index = this.markedNumbers[cardIndex].indexOf(number);
       if (index > -1) {
         this.markedNumbers[cardIndex].splice(index, 1);
       } else {
         this.markedNumbers[cardIndex].push(number);
       }
-      
+
       this.saveCard();
     },
     getCellColor(cell) {
@@ -598,7 +579,7 @@ export default {
     getDrawnNumberDisplay(number) {
       // Converte para número para garantir comparação correta
       const num = typeof number === 'string' ? parseInt(number, 10) : number;
-      
+
       // Busca no tema pelo campo number
       if (this.themeData && this.themeData.length > 0) {
         const item = this.themeData.find(t => {
@@ -609,7 +590,7 @@ export default {
           return item.word; // Mostra apenas o nome do item
         }
       }
-      
+
       // Fallback: busca na cartela
       if (this.card && this.card.length > 0) {
         for (const row of this.card) {
@@ -623,44 +604,44 @@ export default {
           }
         }
       }
-      
+
       // Último fallback: mostra apenas o número se não encontrar
       console.warn(`getDrawnNumberDisplay: Não encontrou item para número ${num}. ThemeData length: ${this.themeData?.length || 0}, Card: ${this.card ? 'existe' : 'não existe'}`);
       return `Número ${num}`;
     },
     async claimBingo() {
       if (this.bingoClaimed || this.isWinner) return;
-      
+
       this.loading = true;
-      
+
       try {
         const response = await fetch('/api/claim-bingo', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-        body: JSON.stringify({
-          room_id: this.room_id,
-          user_id: this.user_id,
-          cards: Array.isArray(this.card) && Array.isArray(this.card[0]) ? [this.card] : [this.card], // Garante formato correto: [[cartela]]
-          markedNumbers: this.markedNumbers,
-        }),
+          body: JSON.stringify({
+            room_id: this.room_id,
+            user_id: this.user_id,
+            cards: Array.isArray(this.card) && Array.isArray(this.card[0]) ? [this.card] : [this.card], // Garante formato correto: [[cartela]]
+            markedNumbers: this.markedNumbers,
+          }),
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
           throw new Error(data.error || 'Erro ao validar bingo');
         }
-        
+
         this.bingoClaimed = true;
         this.bingoResult = data.claim;
         this.showResultModal = true;
-        
+
         if (data.claim.is_valid) {
           this.isWinner = true;
         }
-        
+
         // Atualiza lista de claims
         await this.loadRoomData();
       } catch (error) {
@@ -678,7 +659,7 @@ export default {
     async handleAvatarSelect(avatarNum) {
       this.userAvatar = avatarNum;
       this.showAvatarSelector = false;
-      
+
       // Atualiza no servidor
       try {
         const response = await fetch('/api/update-avatar', {
@@ -692,17 +673,20 @@ export default {
             avatar: avatarNum,
           }),
         });
-        
+
         if (!response.ok) {
           throw new Error('Erro ao atualizar avatar');
         }
-        
-        // Atualiza localStorage
-        const session = JSON.parse(localStorage.getItem('user_session'));
-        if (session) {
-          session.avatar = avatarNum;
-          localStorage.setItem('user_session', JSON.stringify(session));
-        }
+
+          // Atualiza localStorage usando SessionManager
+          const { SessionManager } = await import('../utils/session.js');
+          const session = SessionManager.getUserSession();
+          if (session) {
+            SessionManager.saveUserSession({
+              ...session,
+              avatar: avatarNum,
+            });
+          }
       } catch (error) {
         console.error('Erro ao atualizar avatar:', error);
         alert('Erro ao atualizar avatar. Tente novamente.');
@@ -714,10 +698,10 @@ export default {
         card: this.card,
         markedNumbers: this.markedNumbers,
       }));
-      
+
       // Salva números marcados separadamente
       localStorage.setItem(`marked_${this.room_id}_${this.user_name}`, JSON.stringify(this.markedNumbers));
-      
+
       // Salva no servidor também
       // this.card é um array de linhas: [[cell1, cell2], [cell3, cell4], ...]
       // cards deve ser um array de cartelas: [[[linha1], [linha2], ...]]
@@ -725,7 +709,7 @@ export default {
       if (this.user_id && this.room_id && this.card && Array.isArray(this.card) && this.card.length > 0) {
         // Garante que não está salvando estrutura aninhada incorretamente
         const cardsToSave = Array.isArray(this.card[0]) ? [this.card] : [[this.card]];
-        
+
         fetch('/api/save-cards', {
           method: 'POST',
           headers: {
@@ -861,7 +845,6 @@ export default {
 
 .cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   margin-bottom: 30px;
 }
@@ -870,7 +853,7 @@ export default {
   background: rgba(255, 255, 255, 0.215);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .bingo-card-wrapper h3 {
@@ -888,7 +871,8 @@ export default {
 .bingo-row {
   display: grid;
   grid-template-columns: repeat(var(--cols, 4), 1fr);
-  gap: 4px;
+  gap: 20px;
+  max-width: 100%;
 }
 
 .bingo-cell {
@@ -901,7 +885,9 @@ export default {
   cursor: pointer;
   transition: all 0.2s;
   font-weight: 600;
-  height: unset;
+  width: 100%;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 .bingo-cell:hover {
@@ -932,10 +918,8 @@ export default {
 }
 
 .cell-image {
-  width: 100%;
-  max-width: 120px;
-  max-height: 120px;
-  min-height: 60px;
+  width: 50%;
+  max-width: 100%;
   height: auto;
   object-fit: contain;
   flex-shrink: 0;
@@ -946,7 +930,7 @@ export default {
   font-size: 16px;
   font-weight: 700;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   text-align: center;
   line-height: 1.3;
   word-break: break-word;
@@ -1009,6 +993,11 @@ export default {
   border-radius: 12px;
 }
 
+.results-container h3 {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
 .claims-list {
   display: flex;
   flex-direction: column;
@@ -1027,12 +1016,14 @@ export default {
 
 .claim-item.valid {
   border-left-color: #4caf50;
-  background: #e8f5e9;
+  background: var(--background-success);
+  color: var(--text-success);
 }
 
 .claim-item.invalid {
   border-left-color: #f44336;
-  background: #ffebee;
+  background: var(--background-danger);
+  color: var(--text-danger);
 }
 
 .claim-item.winner {
@@ -1050,6 +1041,7 @@ export default {
 .claim-name {
   flex: 1;
   font-weight: 600;
+  text-align: justify;
 }
 
 .claim-status {
@@ -1075,7 +1067,7 @@ export default {
   border-radius: 12px;
   text-align: center;
   max-width: 500px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .modal-content h2 {
@@ -1106,8 +1098,18 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .bingo-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
-

@@ -95,7 +95,7 @@
         </div>
         
         <div v-if="winner" class="winner-announcement">
-          <h3>🎉 VENCEDOR! 🎉</h3>
+          <h5>🎉 VENCEDOR! 🎉</h5>
           <p class="winner-name">{{ winner.user_name }}</p>
         </div>
 
@@ -222,7 +222,7 @@ export default {
       themeData: [],
       drawnNumbers: [],
       lastDrawnNumber: null,
-      bigNumberClosed: false, // Flag para controlar se o número grande foi fechado
+      bigNumberClosed: true, // Flag para controlar se o número grande foi fechado (inicia fechado)
       bingoClaims: [],
       users: [],
       winner: null,
@@ -240,24 +240,32 @@ export default {
     },
   },
   async mounted() {
-    this.room_id = this.$route.params.room_id;
-    this.password = this.$route.query.password;
+    // Verifica sessão usando SessionManager
+    const { SessionManager } = await import('../utils/session.js');
+    const verification = await SessionManager.verifyHostSession();
     
-    // Tenta recuperar do localStorage
-    const savedRoom = localStorage.getItem('host_room');
-    if (savedRoom) {
-      try {
-        const roomData = JSON.parse(savedRoom);
-        if (roomData.room_id === this.room_id) {
-          this.room_name = roomData.room_name;
-          this.password = roomData.password;
-        }
-      } catch (e) {
-        // Ignora erro
-      }
+    if (!verification.valid) {
+      // Sessão inválida, limpa e redireciona
+      SessionManager.clearHostSession();
+      alert(verification.reason || 'Sessão expirada. Por favor, faça login novamente.');
+      this.$router.push('/host-login');
+      return;
     }
+
+    const sessionData = verification.session;
+    this.room_id = this.$route.params.room_id || sessionData.room_id;
+    this.password = this.$route.query.password || sessionData.password;
+    this.room_name = verification.room?.room_name || sessionData.room_name;
+    
+    // Atualiza sessão com dados mais recentes
+    SessionManager.saveHostSession({
+      ...sessionData,
+      room_name: this.room_name,
+    });
     
     await this.loadRoomData();
+    // Garante que o modal não abre ao carregar a página
+    this.bigNumberClosed = true;
     this.startPolling();
   },
   beforeUnmount() {
@@ -277,11 +285,19 @@ export default {
           this.card_size = data.room.card_size || this.card_size;
           const newDrawnNumbers = data.room.drawn_numbers || [];
           
-          // Só atualiza lastDrawnNumber se for um número novo e o modal não foi fechado
-          if (newDrawnNumbers.length > this.drawnNumbers.length && !this.bigNumberClosed) {
+          // Só atualiza lastDrawnNumber se for um número novo
+          if (newDrawnNumbers.length > this.drawnNumbers.length) {
             // Novo número foi sorteado
-            this.lastDrawnNumber = newDrawnNumbers[newDrawnNumbers.length - 1];
-            this.bigNumberClosed = false; // Reset flag para mostrar o novo número
+            const newNumber = newDrawnNumbers[newDrawnNumbers.length - 1];
+            // Só mostra o modal se for um número realmente novo (não ao carregar a página)
+            if (this.drawnNumbers.length > 0) {
+              this.lastDrawnNumber = newNumber;
+              this.bigNumberClosed = false; // Mostra o novo número
+            } else {
+              // Primeira vez carregando, não mostra o modal
+              this.lastDrawnNumber = newNumber;
+              this.bigNumberClosed = true; // Mantém fechado
+            }
           }
           
           this.drawnNumbers = newDrawnNumbers;
@@ -856,12 +872,14 @@ export default {
 
 .claim-item.valid {
   border-left-color: #4caf50;
-  background: #e8f5e9;
+  background: var(--background-success);
+  color: var(--text-success);
 }
 
 .claim-item.invalid {
   border-left-color: #f44336;
-  background: #ffebee;
+  background: var(--background-danger);
+  color: var(--text-danger);
 }
 
 .claim-order {
@@ -871,28 +889,30 @@ export default {
 
 .claim-time {
   font-size: 12px;
-  color: #666;
+  color: var(--text-color);
 }
 
 .claim-name {
   font-weight: 600;
+  font-size: 14px;
 }
 
 .claim-status {
   font-weight: 600;
+  font-size: 14px;
 }
 
 .winner-announcement {
   text-align: center;
-  padding: 30px;
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  padding: 15px;
+  background: var(--background-warning);
+  color: var(--text-warning);
   border-radius: 12px;
   margin: 20px 0;
 }
 
-.winner-announcement h3 {
-  font-size: 32px;
-  margin-bottom: 10px;
+.winner-announcement h5, p {
+  margin: 10px;
 }
 
 .winner-name {
@@ -938,8 +958,9 @@ export default {
 }
 
 .player-item.winner {
-  background: #fff9c4;
-  border: 2px solid #ffd700;
+  background: var(--background-warning);
+  color: var(--text-warning);
+  border: 2px solid var(--text-warning);
 }
 
 .player-info {
@@ -1025,7 +1046,7 @@ export default {
 }
 
 .modal-content {
-  background: #ffffff1f;
+  background: #ffffff;
   padding: 30px;
   border-radius: 12px;
   text-align: center;

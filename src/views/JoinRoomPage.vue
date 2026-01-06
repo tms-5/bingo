@@ -120,13 +120,14 @@ export default {
         }
         
         // Salva no localStorage para reconexão
-        localStorage.setItem('user_session', JSON.stringify({
+        const { SessionManager } = await import('../utils/session.js');
+        SessionManager.saveUserSession({
           user_id: data.user_id,
           room_id: data.room_id,
           user_name: data.user_name,
           room_name: data.room_name,
           avatar: data.avatar || this.selectedAvatar,
-        }));
+        });
         
         // Redireciona para a tela do jogo
         this.$router.push({
@@ -140,19 +141,27 @@ export default {
       }
     },
   },
-  mounted() {
-    // Tenta recuperar sessão anterior
-    const savedSession = localStorage.getItem('user_session');
+  async mounted() {
+    // Verifica se há sessão válida
+    const { SessionManager } = await import('../utils/session.js');
+    const verification = await SessionManager.verifyUserSession();
+    
+    if (verification.valid) {
+      // Sessão válida, redireciona automaticamente
+      this.$router.push({
+        name: 'GameRoom',
+        params: { room_id: verification.session.room_id },
+      });
+      return;
+    }
+    
+    // Se não for válida, preenche campos com dados salvos
+    const savedSession = SessionManager.getUserSession();
     if (savedSession) {
-      try {
-        const session = JSON.parse(savedSession);
-        this.room_id = session.room_id;
-        this.user_name = session.user_name;
-        if (session.avatar) {
-          this.selectedAvatar = session.avatar;
-        }
-      } catch (e) {
-        // Ignora erro
+      this.room_id = savedSession.room_id || '';
+      this.user_name = savedSession.user_name || '';
+      if (savedSession.avatar) {
+        this.selectedAvatar = savedSession.avatar;
       }
     }
   },
