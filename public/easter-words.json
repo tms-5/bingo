@@ -1,0 +1,302 @@
+[
+  {
+    "word": "Chocolate",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/2618/2618430.png",
+    "number": 1
+  },
+  {
+    "word": "Ovo de Páscoa",
+    "color": "#e3d979",
+    "image": "https://cdn-icons-png.flaticon.com/128/2720/2720077.png",
+    "number": 2
+  },
+  {
+    "word": "Bombom",
+    "color": "#D0F8CE",
+    "image": "https://cdn-icons-png.flaticon.com/128/6603/6603629.png",
+    "number": 3
+  },
+  {
+    "word": "Coelho de açúcar",
+    "color": "#d6f4ff",
+    "image": "https://cdn-icons-png.flaticon.com/128/2425/2425952.png",
+    "number": 4
+  },
+  {
+    "word": "Cenoura",
+    "color": "#ecffaf",
+    "image": "https://cdn-icons-png.flaticon.com/128/2565/2565428.png",
+    "number": 5
+  },
+  {
+    "word": "Colomba Pascal",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/10586/10586534.png",
+    "number": 6
+  },
+  {
+    "word": "Trufa",
+    "color": "#c0b05e",
+    "image": "https://cdn-icons-png.flaticon.com/128/14792/14792267.png",
+    "number": 7
+  },
+  {
+    "word": "Cupcake",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/5850/5850540.png",
+    "number": 8
+  },
+  {
+    "word": "Chocolate branco",
+    "color": "#63b293",
+    "image": "https://cdn-icons-png.flaticon.com/128/9508/9508246.png",
+    "number": 9
+  },
+  {
+    "word": "Chocolate amargo",
+    "color": "#83c87f",
+    "image": "https://cdn-icons-png.flaticon.com/128/13635/13635699.png",
+    "number": 10
+  },
+  {
+    "word": "Chocolate ao leite",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/7522/7522581.png",
+    "number": 11
+  },
+  {
+    "word": "Brigadeiro",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/8628/8628363.png",
+    "number": 12
+  },
+  {
+    "word": "Almoço",
+    "color": "#95d092",
+    "image": "https://cdn-icons-png.flaticon.com/128/3274/3274099.png",
+    "number": 13
+  },
+  {
+    "word": "Amêndoas",
+    "color": "#FFE4B3",
+    "image": "https://cdn-icons-png.flaticon.com/128/3274/3274099.png",
+    "number": 14
+  },
+  {
+    "word": "Bacalhau",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/4900/4900928.png",
+    "number": 15
+  },
+  {
+    "word": "Coelho",
+    "color": "#9a9390",
+    "image": "https://cdn-icons-png.flaticon.com/128/4185/4185066.png",
+    "number": 16
+  },
+  {
+    "word": "Jesus",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/2545/2545532.png",
+    "number": 17
+  },
+  {
+    "word": "Orelhas",
+    "color": "#d5cef8",
+    "image": "https://cdn-icons-png.flaticon.com/128/9609/9609148.png",
+    "number": 18
+  },
+  {
+    "word": "Patas",
+    "color": "#FFE4B3",
+    "image": "https://cdn-icons-png.flaticon.com/128/2618/2618447.png",
+    "number": 19
+  },
+  {
+    "word": "Coroa de espinhos",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/7149/7149169.png",
+    "number": 20
+  },
+  {
+    "word": "Cesta",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/4185/4185053.png",
+    "number": 21
+  },
+  {
+    "word": "Chapéu de mágica",
+    "color": "#FFE4B3",
+    "image": "https://cdn-icons-png.flaticon.com/128/9324/9324970.png",
+    "number": 22
+  },
+  {
+    "word": "Pegadas",
+    "color": "#f89",
+    "image": "https://cdn-icons-png.flaticon.com/128/15057/15057813.png",
+    "number": 23
+  },
+  {
+    "word": "Toca do coelho",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/1469/1469074.png",
+    "number": 24
+  },
+  {
+    "word": "Cordeiro",
+    "color": "#D0F8CE",
+    "image": "https://cdn-icons-png.flaticon.com/128/4185/4185085.png",
+    "number": 25
+  },
+  {
+    "word": "Girassol",
+    "color": "#dccbf1",
+    "image": "https://cdn-icons-png.flaticon.com/128/1993/1993750.png",
+    "number": 26
+  },
+  {
+    "word": "Sino",
+    "color": "#ffd6fb",
+    "image": "https://cdn-icons-png.flaticon.com/128/5776/5776085.png",
+    "number": 27
+  },
+  {
+    "word": "Água",
+    "color": "#D0F8CE",
+    "image": "https://cdn-icons-png.flaticon.com/128/525/525810.png",
+    "number": 28
+  },
+  {
+    "word": "Velas",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/4212/4212613.png",
+    "number": 29
+  },
+  {
+    "word": "Pão e Vinho",
+    "color": "#FFE4B3",
+    "image": "https://cdn-icons-png.flaticon.com/128/13756/13756325.png",
+    "number": 30
+  },
+  {
+    "word": "Pintura",
+    "color": "#D0F8CE",
+    "image": "https://cdn-icons-png.flaticon.com/128/9998/9998945.png",
+    "number": 31
+  },
+  {
+    "word": "Biscoito",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/8841/8841081.png",
+    "number": 32
+  },
+  {
+    "word": "Caça aos ovos",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/10291/10291991.png",
+    "number": 33
+  },
+  {
+    "word": "Surpresa",
+    "color": "#FFE4B3",
+    "image": "https://cdn-icons-png.flaticon.com/128/1240/1240219.png",
+    "number": 34
+  },
+  {
+    "word": "Embrulho",
+    "color": "#D0F8CE",
+    "image": "https://cdn-icons-png.flaticon.com/128/8684/8684679.png",
+    "number": 35
+  },
+  {
+    "word": "Laço de fita",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/2388/2388624.png",
+    "number": 36
+  },
+  {
+    "word": "Presente",
+    "color": "#b3daff",
+    "image": "https://cdn-icons-png.flaticon.com/128/3620/3620659.png",
+    "number": 37
+  },
+  {
+    "word": "Casca de ovo",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/4187/4187810.png",
+    "number": 38
+  },
+  {
+    "word": "Tintas",
+    "color": "#D0F8CE",
+    "image": "https://cdn-icons-png.flaticon.com/128/3547/3547611.png",
+    "number": 39
+  },
+  {
+    "word": "Pincel",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/595/595743.png",
+    "number": 40
+  },
+  {
+    "word": "Renascimento",
+    "color": "#d6e1ff",
+    "image": "https://cdn-icons-png.flaticon.com/128/3887/3887151.png",
+    "number": 41
+  },
+  {
+    "word": "Vida",
+    "color": "#94cee0",
+    "image": "https://cdn-icons-png.flaticon.com/128/5822/5822978.png",
+    "number": 42
+  },
+  {
+    "word": "Ressurreição",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/3389/3389387.png",
+    "number": 43
+  },
+  {
+    "word": "Celebração",
+    "color": "#ededed",
+    "image": "https://cdn-icons-png.flaticon.com/128/6581/6581564.png",
+    "number": 44
+  },
+  {
+    "word": "Família",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/3097/3097951.png",
+    "number": 45
+  },
+  {
+    "word": "União",
+    "color": "#D0F8CE",
+    "image": "https://cdn-icons-png.flaticon.com/128/3065/3065883.png",
+    "number": 46
+  },
+  {
+    "word": "Feriado Páscoa",
+    "color": "#FFF9C4",
+    "image": "https://cdn-icons-png.flaticon.com/128/4278/4278073.png",
+    "number": 47
+  },
+  {
+    "word": "Primavera",
+    "color": "#FFE4B3",
+    "image": "https://cdn-icons-png.flaticon.com/128/2813/2813940.png",
+    "number": 48
+  },
+  {
+    "word": "Bolo páscoa",
+    "color": "#95a8e2",
+    "image": "https://cdn-icons-png.flaticon.com/128/352/352592.png",
+    "number": 49
+  },
+  {
+    "word": "Gratidão",
+    "color": "#FFD6DC",
+    "image": "https://cdn-icons-png.flaticon.com/128/6224/6224824.png",
+    "number": 50
+  }
+]

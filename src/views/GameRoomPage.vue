@@ -1,9 +1,23 @@
 <template>
   <div class="game-room-page">
     <div class="room-header">
-      <h1 class="c-blue-200 fw-700">{{ room_name }}</h1>
-      <p class="room-id">Sala: {{ room_id }}</p>
-      <p class="user-name">Jogador: {{ user_name }}</p>
+      <div class="header-top">
+        <h1 class="c-blue-200 fw-700">{{ room_name }}</h1>
+        <div class="user-info">
+          <div class="avatar-container" @click="showAvatarSelector = true" title="Clique para alterar avatar">
+            <img 
+              :src="getAvatarPath(userAvatar)" 
+              :alt="`Avatar ${userAvatar}`"
+              class="user-avatar"
+            />
+            <span class="avatar-edit-icon">✏️</span>
+          </div>
+          <div class="user-details">
+            <p class="user-name">Jogador: {{ user_name }}</p>
+            <p class="room-id">Sala: {{ room_id }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="loadingTheme" class="setup-container">
@@ -107,6 +121,17 @@
         </div>
       </div>
     </div>
+    
+    <!-- Modal de seleção de avatar -->
+    <div v-if="showAvatarSelector" class="modal-overlay" @click="showAvatarSelector = false">
+      <div class="modal-content avatar-modal" @click.stop>
+        <AvatarSelector
+          :current-avatar="userAvatar"
+          @select="handleAvatarSelect"
+          @close="showAvatarSelector = false"
+        />
+      </div>
+    </div>
 
     <!-- Loading -->
     <div v-if="loading" class="loading-overlay">
@@ -116,14 +141,20 @@
 </template>
 
 <script>
+import AvatarSelector from '../components/AvatarSelector.vue';
+
 export default {
   name: 'GameRoomPage',
+  components: {
+    AvatarSelector,
+  },
   data() {
     return {
       room_id: null,
       room_name: '',
       user_id: null,
       user_name: '',
+      userAvatar: 1,
       theme: null,
       card_size: 16,
       themeData: [], // Dados do tema (JSON)
@@ -137,6 +168,7 @@ export default {
       bingoClaims: [],
       showResultModal: false,
       bingoResult: null,
+      showAvatarSelector: false,
       loading: false,
       pollInterval: null,
     };
@@ -154,6 +186,7 @@ export default {
     this.user_id = sessionData.user_id;
     this.user_name = sessionData.user_name;
     this.room_name = sessionData.room_name;
+    this.userAvatar = sessionData.avatar || 1;
 
     // Aguarda carregar dados da sala primeiro para ter theme e card_size
     await this.loadRoomData();
@@ -169,8 +202,17 @@ export default {
       this.card_size = 16;
     }
     
-    // Verifica se o usuário já tem cartela no banco
+    // Verifica se o usuário já tem cartela no banco e carrega avatar
     const user = await this.getUserFromServer();
+    if (user && user.avatar) {
+      this.userAvatar = user.avatar;
+      // Atualiza localStorage
+      const session = JSON.parse(localStorage.getItem('user_session'));
+      if (session) {
+        session.avatar = user.avatar;
+        localStorage.setItem('user_session', JSON.stringify(session));
+      }
+    }
     if (user && user.cards && user.cards.length > 0 && user.cards[0] && user.cards[0].length > 0) {
       // Usuário já tem cartela no servidor, carrega ela
       // Verifica se a cartela tem image e color, se não, precisa recarregar do tema
@@ -630,6 +672,42 @@ export default {
     closeResultModal() {
       this.showResultModal = false;
     },
+    getAvatarPath(avatarNum) {
+      return `/avatar/avatar-${avatarNum}.png`;
+    },
+    async handleAvatarSelect(avatarNum) {
+      this.userAvatar = avatarNum;
+      this.showAvatarSelector = false;
+      
+      // Atualiza no servidor
+      try {
+        const response = await fetch('/api/update-avatar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            room_id: this.room_id,
+            user_id: this.user_id,
+            avatar: avatarNum,
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error('Erro ao atualizar avatar');
+        }
+        
+        // Atualiza localStorage
+        const session = JSON.parse(localStorage.getItem('user_session'));
+        if (session) {
+          session.avatar = avatarNum;
+          localStorage.setItem('user_session', JSON.stringify(session));
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar avatar:', error);
+        alert('Erro ao atualizar avatar. Tente novamente.');
+      }
+    },
     saveCard() {
       // Salva usando nome da sala e nome do usuário como identificador
       localStorage.setItem(`card_${this.room_id}_${this.user_name}`, JSON.stringify({
@@ -678,20 +756,77 @@ export default {
 }
 
 .room-header {
-  text-align: center;
   margin-bottom: 30px;
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.avatar-container {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.avatar-container:hover {
+  transform: scale(1.05);
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--bingo-blue-200);
+}
+
+.avatar-edit-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--bingo-blue-200);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 2px solid var(--background-color);
+}
+
+.user-details {
+  text-align: left;
+}
+
 .room-id {
-  font-size: 18px;
+  font-size: 14px;
   color: var(--text-color);
   opacity: 0.7;
+  margin: 0;
 }
 
 .user-name {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--text-color);
-  opacity: 0.8;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+}
+
+.avatar-modal {
+  max-width: 600px;
+  width: 90%;
 }
 
 .setup-container {

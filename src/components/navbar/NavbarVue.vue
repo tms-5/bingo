@@ -71,7 +71,7 @@ nav {
     width: 100%;
     background: var(--navbar-bg);
     position: fixed;
-    z-index: 99999;
+    z-index: 1000;
 }
 
 nav .wrapper {

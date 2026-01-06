@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { room_id, password, user_name } = req.body;
+    const { room_id, password, user_name, avatar } = req.body;
 
     if (!room_id || !password || !user_name) {
       return res.status(400).json({ error: 'ID da sala, senha e nome do usuário são obrigatórios' });
@@ -48,10 +48,14 @@ export default async function handler(req, res) {
       user_id = existingUser.user_id;
       cards = existingUser.cards || [];
       
-      // Atualiza last_seen
+      // Atualiza last_seen e avatar (se fornecido)
+      const updateData = { last_seen: new Date() };
+      if (avatar) {
+        updateData.avatar = avatar;
+      }
       await db.collection('users').updateOne(
         { user_id, room_id },
-        { $set: { last_seen: new Date() } }
+        { $set: updateData }
       );
     } else {
       // Verifica novamente antes de criar (para evitar race conditions)
@@ -77,6 +81,7 @@ export default async function handler(req, res) {
           user_id,
           room_id,
           user_name,
+          avatar: avatar || 1, // Avatar padrão é 1 se não fornecido
           cards: [], // Array de cartelas do usuário
           has_bingo: false,
           bingo_claimed_at: null,
@@ -111,12 +116,16 @@ export default async function handler(req, res) {
       }
     }
 
+    // Busca o avatar atual do usuário
+    const finalUser = await db.collection('users').findOne({ user_id, room_id });
+    
     return res.status(200).json({ 
       success: true, 
       user_id,
       room_id,
       user_name,
       room_name: room.room_name,
+      avatar: finalUser?.avatar || avatar || 1,
     });
   } catch (error) {
     console.error('Erro ao entrar na sala:', error);

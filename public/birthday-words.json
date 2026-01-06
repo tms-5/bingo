@@ -1,0 +1,314 @@
+[
+  {
+    "word": "Bolo",
+    "color": "#FFDAB9",
+    "image": "https://cdn-icons-png.flaticon.com/128/2454/2454297.png",
+    "number": 1
+  },
+  {
+    "word": "Brigadeiro",
+    "color": "#E67E22",
+    "image": "https://cdn-icons-png.flaticon.com/128/8628/8628363.png",
+    "number": 2
+  },
+  {
+    "word": "Beijinho",
+    "color": "#FFF0F5",
+    "image": "https://cdn-icons-png.flaticon.com/128/12505/12505693.png",
+    "number": 3
+  },
+  {
+    "word": "Coxinha",
+    "color": "#FFBC5A",
+    "image": "https://cdn-icons-png.flaticon.com/128/8692/8692315.png",
+    "number": 4
+  },
+  {
+    "word": "Empadinha",
+    "color": "#FFD700",
+    "image": "https://cdn-icons-png.flaticon.com/128/12505/12505696.png",
+    "number": 5
+  },
+  {
+    "word": "Pipoca",
+    "color": "#FFFACD",
+    "image": "https://cdn-icons-png.flaticon.com/128/737/737984.png",
+    "number": 6
+  },
+  {
+    "word": "Cachorro-quente",
+    "color": "#FA8072",
+    "image": "https://cdn-icons-png.flaticon.com/128/2102/2102354.png",
+    "number": 7
+  },
+  {
+    "word": "Refrigerante",
+    "color": "#87CEFA",
+    "image": "https://cdn-icons-png.flaticon.com/128/5821/5821449.png",
+    "number": 8
+  },
+  {
+    "word": "Suco",
+    "color": "#A3D977",
+    "image": "https://cdn-icons-png.flaticon.com/128/1813/1813437.png",
+    "number": 9
+  },
+  {
+    "word": "Docinhos",
+    "color": "#FFB6C1",
+    "image": "https://cdn-icons-png.flaticon.com/128/2498/2498773.png",
+    "number": 10
+  },
+  {
+    "word": "Glacê",
+    "color": "#E0C8F7",
+    "image": "https://cdn-icons-png.flaticon.com/128/5774/5774469.png",
+    "number": 11
+  },
+  {
+    "word": "Gatinho aniversariante",
+    "color": "#69ced5",
+    "image": "https://cdn-icons-png.flaticon.com/128/8876/8876303.png",
+    "number": 12
+  },
+  {
+    "word": "Salsichinha aniversariante",
+    "color": "#CFAE7B",
+    "image": "https://cdn-icons-png.flaticon.com/128/8876/8876318.png",
+    "number": 13
+  },
+  {
+    "word": "Algodão-doce",
+    "color": "#FFD1FF",
+    "image": "https://cdn-icons-png.flaticon.com/128/2608/2608473.png",
+    "number": 14
+  },
+  {
+    "word": "Vela de aniversário",
+    "color": "#a188f7",
+    "image": "https://cdn-icons-png.flaticon.com/128/18957/18957639.png",
+    "number": 15
+  },
+  {
+    "word": "Balão",
+    "color": "#FC7C7C",
+    "image": "https://cdn-icons-png.flaticon.com/128/5757/5757341.png",
+    "number": 16
+  },
+  {
+    "word": "Bexiga",
+    "color": "#7EC7F8",
+    "image": "https://cdn-icons-png.flaticon.com/128/2608/2608473.png",
+    "number": 17
+  },
+  {
+    "word": "Confete",
+    "color": "#71EFA3",
+    "image": "https://cdn-icons-png.flaticon.com/128/3146/3146600.png",
+    "number": 18
+  },
+  {
+    "word": "Serpentina",
+    "color": "#3d94e5",
+    "image": "https://cdn-icons-png.flaticon.com/128/5257/5257571.png",
+    "number": 19
+  },
+  {
+    "word": "Drinks",
+    "color": "#A188F7",
+    "image": "https://cdn-icons-png.flaticon.com/128/2930/2930916.png",
+    "number": 20
+  },
+  {
+    "word": "Cachorro aniversariante",
+    "color": "#F0B7B7",
+    "image": "https://cdn-icons-png.flaticon.com/128/3513/3513846.png",
+    "number": 21
+  },
+  {
+    "word": "Centro de mesa",
+    "color": "#BFFCC6",
+    "image": "https://cdn-icons-png.flaticon.com/128/6358/6358682.png",
+    "number": 22
+  },
+  {
+    "word": "Ratinho aniversariante",
+    "color": "#98DDCA",
+    "image": "https://cdn-icons-png.flaticon.com/128/8876/8876301.png",
+    "number": 23
+  },
+  {
+    "word": "Churrasco",
+    "color": "#FF9CEE",
+    "image": "https://cdn-icons-png.flaticon.com/128/8816/8816414.png",
+    "number": 24
+  },
+  {
+    "word": "Balão personalizado",
+    "color": "#FFD36E",
+    "image": "https://cdn-icons-png.flaticon.com/128/3132/3132701.png",
+    "number": 25
+  },
+  {
+    "word": "Chapéuzinho",
+    "color": "#A0CED9",
+    "image": "https://cdn-icons-png.flaticon.com/128/415/415548.png",
+    "number": 26
+  },
+  {
+    "word": "Guirlanda",
+    "color": "#81ECEC",
+    "image": "https://cdn-icons-png.flaticon.com/128/4550/4550058.png",
+    "number": 27
+  },
+  {
+    "word": "Copos",
+    "color": "#D6A4FF",
+    "image": "https://cdn-icons-png.flaticon.com/128/2707/2707712.png",
+    "number": 28
+  },
+  {
+    "word": "Festa",
+    "color": "#FFD1BA",
+    "image": "https://cdn-icons-png.flaticon.com/128/3269/3269065.png",
+    "number": 29
+  },
+  {
+    "word": "Luzes",
+    "color": "#70A1D7",
+    "image": "https://cdn-icons-png.flaticon.com/128/2402/2402479.png",
+    "number": 30
+  },
+  {
+    "word": "Presente",
+    "color": "#FFD700",
+    "image": "https://cdn-icons-png.flaticon.com/128/4464/4464722.png",
+    "number": 31
+  },
+  {
+    "word": "Karaoke",
+    "color": "#CCABD8",
+    "image": "https://cdn-icons-png.flaticon.com/128/8540/8540872.png",
+    "number": 32
+  },
+  {
+    "word": "Verdade ou consequência",
+    "color": "#f1c3ff",
+    "image": "https://cdn-icons-png.flaticon.com/128/3728/3728095.png",
+    "number": 33
+  },
+  {
+    "word": "Vestido de festa",
+    "color": "#20B2AA",
+    "image": "https://cdn-icons-png.flaticon.com/128/9047/9047361.png",
+    "number": 34
+  },
+  {
+    "word": "Pratinho",
+    "color": "#ecffda",
+    "image": "https://cdn-icons-png.flaticon.com/128/2424/2424848.png",
+    "number": 35
+  },
+  {
+    "word": "Pista de dança",
+    "color": "#009688",
+    "image": "https://cdn-icons-png.flaticon.com/128/7381/7381844.png",
+    "number": 36
+  },
+  {
+    "word": "Sacolinha surpresa",
+    "color": "#F48B29",
+    "image": "https://cdn-icons-png.flaticon.com/128/18566/18566418.png",
+    "number": 37
+  },
+  {
+    "word": "Quebra panela",
+    "color": "#16A085",
+    "image": "https://cdn-icons-png.flaticon.com/128/5521/5521450.png",
+    "number": 38
+  },
+  {
+    "word": "Música",
+    "color": "#C1839F",
+    "image": "https://cdn-icons-png.flaticon.com/128/3225/3225277.png",
+    "number": 39
+  },
+  {
+    "word": "Dança",
+    "color": "#3DC1D3",
+    "image": "https://cdn-icons-png.flaticon.com/128/1997/1997712.png",
+    "number": 40
+  },
+  {
+    "word": "Ursinho aniversariante",
+    "color": "#B799FF",
+    "image": "https://cdn-icons-png.flaticon.com/128/1272/1272001.png",
+    "number": 41
+  },
+  {
+    "word": "DJ",
+    "color": "#F8C291",
+    "image": "https://cdn-icons-png.flaticon.com/128/1711/1711963.png",
+    "number": 42
+  },
+  {
+    "word": "Sorriso",
+    "color": "#F7B32B",
+    "image": "https://cdn-icons-png.flaticon.com/128/4138/4138902.png",
+    "number": 43
+  },
+  {
+    "word": "Festa na piscina",
+    "color": "#2D98DA",
+    "image": "https://cdn-icons-png.flaticon.com/128/1711/1711987.png",
+    "number": 44
+  },
+  {
+    "word": "Língua de sogra",
+    "color": "#9AECDB",
+    "image": "https://cdn-icons-png.flaticon.com/128/6171/6171261.png",
+    "number": 45
+  },
+  {
+    "word": "Aniversariante",
+    "color": "#B5EAD7",
+    "image": "https://cdn-icons-png.flaticon.com/128/4018/4018986.png",
+    "number": 46
+  },
+  {
+    "word": "Convite",
+    "color": "#FFDAC1",
+    "image": "https://cdn-icons-png.flaticon.com/128/4549/4549819.png",
+    "number": 47
+  },
+  {
+    "word": "Amigos",
+    "color": "#D6E5FA",
+    "image": "https://cdn-icons-png.flaticon.com/128/7051/7051542.png",
+    "number": 48
+  },
+  {
+    "word": "Convidados",
+    "color": "#FFB7B2",
+    "image": "https://cdn-icons-png.flaticon.com/128/4326/4326110.png",
+    "number": 49
+  },
+  {
+    "word": "Surpresa",
+    "color": "#B4DFE5",
+    "image": "https://cdn-icons-png.flaticon.com/128/4114/4114359.png",
+    "number": 50
+  },
+  {
+    "word": "Data comemorativa",
+    "color": "#FFD93D",
+    "image": "https://cdn-icons-png.flaticon.com/128/5562/5562272.png",
+    "number": 51
+  },
+  {
+    "word": "Comemoração",
+    "color": "#92ce48",
+    "image": "https://cdn-icons-png.flaticon.com/128/2454/2454229.png",
+    "number": 52
+  }
+]

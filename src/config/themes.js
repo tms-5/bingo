@@ -12,16 +12,15 @@ export const themes = [
     path: '/christmas-words.json',
   },
   {
-    id: 'christmas-2',
-    name: 'Natal 2',
-    path: '/christmas-words-2.json',
+    id: 'easter',
+    name: 'Páscoa',
+    path: '/easter-words.json',
   },
-  // Adicione mais temas aqui:
-  // {
-  //   id: 'easter',
-  //   name: 'Páscoa',
-  //   path: '/easter-words.json',
-  // },
+  {
+    id: 'birthday',
+    name: 'Aniversário',
+    path: '/birthday-words.json',
+  },
 ];
 
 // Função auxiliar para buscar tema por ID

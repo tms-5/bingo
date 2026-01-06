@@ -16,8 +16,8 @@
         <div class="feature-icon">🎮</div>
         <h3 class="c-blue-200 fw-700">Criar Sala</h3>
         <p>
-          O host cria uma sala personalizada, define o tema (Natal, Páscoa, etc.), 
-          o tamanho da cartela e uma senha de administrador. Cada sala recebe um ID único 
+          O host cria uma sala personalizada, define o tema (Natal, Páscoa, etc.),
+          o tamanho da cartela e uma senha de administrador. Cada sala recebe um ID único
           que será compartilhado com os jogadores.
         </p>
       </div>
@@ -26,8 +26,8 @@
         <div class="feature-icon">👥</div>
         <h3 class="c-blue-200 fw-700">Entrar na Sala</h3>
         <p>
-          Jogadores entram na sala usando o ID e senha. Se um jogador usar um nome que já existe, 
-          sua cartela anterior será recuperada automaticamente. Cada jogador recebe uma cartela 
+          Jogadores entram na sala usando o ID e senha. Se um jogador usar um nome que já existe,
+          sua cartela anterior será recuperada automaticamente. Cada jogador recebe uma cartela
           única baseada no tema escolhido.
         </p>
       </div>
@@ -36,8 +36,8 @@
         <div class="feature-icon">🎲</div>
         <h3 class="c-blue-200 fw-700">Sorteio de Números</h3>
         <p>
-          O host sorteia números que aparecem em grande destaque na tela (ideal para projetor). 
-          Cada número sorteado mostra a palavra e imagem do tema correspondente. Os últimos 5 
+          O host sorteia números que aparecem em grande destaque na tela (ideal para projetor).
+          Cada número sorteado mostra a palavra e imagem do tema correspondente. Os últimos 5
           números aparecem em cards coloridos com imagens.
         </p>
       </div>
@@ -46,8 +46,8 @@
         <div class="feature-icon">🎯</div>
         <h3 class="c-blue-200 fw-700">Cartelas Temáticas</h3>
         <p>
-          As cartelas são geradas automaticamente com base no tema escolhido. Cada célula mostra 
-          uma imagem, palavra e cor de fundo do tema. Os números são mapeados para itens temáticos 
+          As cartelas são geradas automaticamente com base no tema escolhido. Cada célula mostra
+          uma imagem, palavra e cor de fundo do tema. Os números são mapeados para itens temáticos
           (ex: "Árvore", "Presente", "Sinos").
         </p>
       </div>
@@ -56,8 +56,8 @@
         <div class="feature-icon">✅</div>
         <h3 class="c-blue-200 fw-700">Validação de Bingo</h3>
         <p>
-          Quando um jogador completa uma linha, coluna ou diagonal, clica em "BINGO!". 
-          O sistema valida automaticamente e mostra os resultados em ordem cronológica. 
+          Quando um jogador completa uma linha, coluna ou diagonal, clica em "BINGO!".
+          O sistema valida automaticamente e mostra os resultados em ordem cronológica.
           Múltiplos bingos simultâneos são ordenados por quem clicou primeiro.
         </p>
       </div>
@@ -66,8 +66,8 @@
         <div class="feature-icon">👑</div>
         <h3 class="c-blue-200 fw-700">Controle do Host</h3>
         <p>
-          O host pode ver todos os jogadores, expulsar jogadores indesejados, visualizar 
-          o histórico completo de números sorteados e encerrar o jogo quando necessário. 
+          O host pode ver todos os jogadores, expulsar jogadores indesejados, visualizar
+          o histórico completo de números sorteados e encerrar o jogo quando necessário.
           Tudo com autenticação por senha de administrador.
         </p>
       </div>
@@ -76,15 +76,15 @@
     <!-- How It Works Section -->
     <div class="how-it-works">
       <h2 class="section-title">Como Funciona?</h2>
-      
+
       <div class="steps-container">
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
             <h3 class="c-blue-200 fw-700">Criação da Sala</h3>
             <p>
-              O host acessa a página de criar sala, define o nome, escolhe o tema (ex: Natal), 
-              o tamanho da cartela (quantos itens por cartela) e opcionalmente uma senha de admin. 
+              O host acessa a página de criar sala, define o nome, escolhe o tema (ex: Natal),
+              o tamanho da cartela (quantos itens por cartela) e opcionalmente uma senha de admin.
               O sistema gera um ID único para a sala.
             </p>
           </div>
@@ -95,8 +95,8 @@
           <div class="step-content">
             <h3 class="c-blue-200 fw-700">Jogadores Entram</h3>
             <p>
-              Jogadores usam o ID da sala e senha para entrar. Informam seu nome de usuário e 
-              recebem automaticamente uma cartela temática. Se o nome já existir na sala, 
+              Jogadores usam o ID da sala e senha para entrar. Informam seu nome de usuário e
+              recebem automaticamente uma cartela temática. Se o nome já existir na sala,
               a cartela anterior é recuperada.
             </p>
           </div>
@@ -107,8 +107,8 @@
           <div class="step-content">
             <h3 class="c-blue-200 fw-700">Sorteio e Marcação</h3>
             <p>
-              O host sorteia números do tema (não são números sequenciais, mas itens do tema 
-              como "Árvore", "Presente", etc.). Os jogadores veem os números sorteados abaixo 
+              O host sorteia números do tema (não são números sequenciais, mas itens do tema
+              como "Árvore", "Presente", etc.). Os jogadores veem os números sorteados abaixo
               de suas cartelas e podem marcar clicando nas células.
             </p>
           </div>
@@ -119,8 +119,8 @@
           <div class="step-content">
             <h3 class="c-blue-200 fw-700">Reivindicação de Bingo</h3>
             <p>
-              Quando um jogador completa linha, coluna ou diagonal, clica em "BINGO!". 
-              O sistema valida se os números marcados correspondem aos sorteados e mostra 
+              Quando um jogador completa linha, coluna ou diagonal, clica em "BINGO!".
+              O sistema valida se os números marcados correspondem aos sorteados e mostra
               o resultado. Bingos válidos são ordenados por quem clicou primeiro.
             </p>
           </div>
@@ -131,8 +131,8 @@
           <div class="step-content">
             <h3 class="c-blue-200 fw-700">Fim do Jogo</h3>
             <p>
-              Quando há um vencedor, ele é anunciado e não pode mais participar. O host pode 
-              continuar o jogo para outros jogadores ou encerrar completamente, deletando a sala 
+              Quando há um vencedor, ele é anunciado e não pode mais participar. O host pode
+              continuar o jogo para outros jogadores ou encerrar completamente, deletando a sala
               e todos os dados associados.
             </p>
           </div>
@@ -147,28 +147,28 @@
         <div class="technical-item">
           <span class="technical-label">Persistência:</span>
           <span class="technical-value">
-            Cartelas e números marcados são salvos no localStorage do navegador. 
+            Cartelas e números marcados são salvos no localStorage do navegador.
             Se você sair e voltar, seus dados estarão preservados.
           </span>
         </div>
         <div class="technical-item">
           <span class="technical-label">Tempo Real:</span>
           <span class="technical-value">
-            Atualização automática a cada 2 segundos. Números sorteados e resultados 
+            Atualização automática a cada 2 segundos. Números sorteados e resultados
             aparecem instantaneamente para todos os jogadores.
           </span>
         </div>
         <div class="technical-item">
           <span class="technical-label">Temas:</span>
           <span class="technical-value">
-            Sistema suporta múltiplos temas (Natal, Páscoa, etc.). Cada tema tem seus próprios 
+            Sistema suporta múltiplos temas (Natal, Páscoa, etc.). Cada tema tem seus próprios
             itens com imagens, palavras e cores personalizadas.
           </span>
         </div>
         <div class="technical-item">
           <span class="technical-label">Segurança:</span>
           <span class="technical-value">
-            Cada sala tem senha de acesso e senha de administrador separada. O host pode 
+            Cada sala tem senha de acesso e senha de administrador separada. O host pode
             expulsar jogadores e controlar completamente a sala.
           </span>
         </div>
@@ -178,7 +178,7 @@
     <!-- Call to Action -->
     <div class="cta-section">
       <p class="cta-text">
-        Pronto para começar? Use a navegação acima para criar uma sala, entrar em uma sala existente 
+        Pronto para começar? Use a navegação acima para criar uma sala, entrar em uma sala existente
         ou acessar como host.
       </p>
     </div>
@@ -206,18 +206,17 @@ export default {
 }
 
 .hero-title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 20px;
   line-height: 1.2;
 }
 
 .hero-subtitle {
-  font-size: 1rem;
+  font-size: 0.5rem;
   opacity: 0.8;
-  max-width: 600px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.2;
 }
 
 /* Features Section */
@@ -252,8 +251,9 @@ export default {
   margin-bottom: 15px;
 }
 
-.feature-card p, .technical-value {
-  line-height: 1.6;
+.feature-card p,
+.technical-value {
+  line-height: 1.2;
   opacity: 0.9;
   font-size: 0.5rem;
 }
@@ -264,7 +264,7 @@ export default {
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   text-align: center;
   margin-bottom: 50px;
@@ -272,16 +272,16 @@ export default {
 
 .steps-container {
   display: flex;
-    flex-direction: row;
-    gap: 30px;
-    flex-wrap: wrap;
-    justify-content: center;
+  flex-direction: row;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .step {
   display: flex;
-    width: 25%;
-    flex-direction: column;
+  width: 25%;
+  flex-direction: column;
   gap: 25px;
   align-items: center;
   padding: 30px;
@@ -315,11 +315,11 @@ export default {
 
 .step-content h3 {
   font-size: 1rem;
-  margin-bottom: 10px;
+  margin: 12px;
 }
 
 .step-content p {
-  line-height: 1.7;
+  line-height: 1.2;
   opacity: 0.9;
   font-size: 0.5rem;
 }
@@ -362,7 +362,7 @@ export default {
 
 .cta-text {
   font-size: 1.2rem;
-  line-height: 1.7;
+  line-height: 1.2;
   max-width: 700px;
   margin: 0 auto;
 }

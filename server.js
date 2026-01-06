@@ -27,6 +27,7 @@ import saveCards from './api/save-cards.js';
 import verifyHost from './api/verify-host.js';
 import deleteRoom from './api/delete-room.js';
 import deleteUser from './api/delete-user.js';
+import updateAvatar from './api/update-avatar.js';
 
 // Wrapper para converter handlers do Vercel para Express
 function vercelHandler(handler) {
@@ -98,6 +99,7 @@ app.all('/api/save-cards', vercelHandler(saveCards));
 app.all('/api/verify-host', vercelHandler(verifyHost));
 app.all('/api/delete-room', vercelHandler(deleteRoom));
 app.all('/api/delete-user', vercelHandler(deleteUser));
+app.all('/api/update-avatar', vercelHandler(updateAvatar));
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor API rodando em http://localhost:${PORT}`);

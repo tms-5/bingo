@@ -125,7 +125,14 @@
             class="player-item"
             :class="{ winner: user.is_winner }"
           >
-            <span class="player-name">{{ user.user_name }}</span>
+            <div class="player-info">
+              <img 
+                :src="getAvatarPath(user.avatar || 1)" 
+                :alt="`Avatar de ${user.user_name}`"
+                class="player-avatar"
+              />
+              <span class="player-name">{{ user.user_name }}</span>
+            </div>
             <div class="player-actions">
               <span v-if="user.has_bingo" class="player-status">
                 {{ user.is_winner ? '🏆 Ganhador' : 'Bingo reivindicado' }}
@@ -333,6 +340,9 @@ export default {
         return `${item.word} (${number})`;
       }
       return number;
+    },
+    getAvatarPath(avatarNum) {
+      return `/avatar/avatar-${avatarNum || 1}.png`;
     },
     async drawNumber() {
       if (!this.themeData || this.themeData.length === 0) {
@@ -930,6 +940,20 @@ export default {
 .player-item.winner {
   background: #fff9c4;
   border: 2px solid #ffd700;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--bingo-blue-200);
 }
 
 .player-name {

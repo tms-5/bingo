@@ -47,6 +47,7 @@ export default async function handler(req, res) {
       users: users.map(u => ({
         user_id: u.user_id,
         user_name: u.user_name,
+        avatar: u.avatar || 1, // Avatar padrão é 1 se não existir
         has_bingo: u.has_bingo,
         is_winner: u.is_winner,
         cards: u.cards || [], // Inclui cartelas para recuperação
