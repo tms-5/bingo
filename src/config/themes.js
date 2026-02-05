@@ -21,6 +21,11 @@ export const themes = [
     name: 'Aniversário',
     path: '/birthday-words.json',
   },
+  {
+    id: 'interface',
+    name: 'Interface',
+    path: '/interface-words.json',
+  },
 ];
 
 // Função auxiliar para buscar tema por ID

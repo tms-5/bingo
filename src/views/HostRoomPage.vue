@@ -138,7 +138,8 @@
                 {{ user.is_winner ? '🏆 Ganhador' : 'Bingo reivindicado' }}
               </span>
               <button 
-                @click="removeUser(user.user_id, user.user_name)"
+                type="button"
+                @click.stop="removeUser(user.user_id, user.user_name)"
                 class="btn-remove-user"
                 title="Expulsar jogador"
               >
@@ -172,7 +173,7 @@
 
     <!-- Modal para ver todos os números sorteados -->
     <div v-if="showAllNumbersModal" class="modal-overlay" @click="showAllNumbersModal = false">
-      <div class="modal-content all-numbers-modal" @click.stop style='background: white; max-width: 100%;'>
+      <div class="modal-content all-numbers-modal" @click.stop style="max-width: 100%;">
         <div class="modal-header">
           <h2>Números Sorteados ({{ drawnNumbers.length }})</h2>
           <button @click="showAllNumbersModal = false" class="btn-close-modal">×</button>
@@ -305,7 +306,8 @@ export default {
           this.winner = data.room.winner 
             ? this.bingoClaims.find(c => c.user_id === data.room.winner && c.is_valid)
             : null;
-          this.gameFinished = !!this.winner;
+          // Não encerra o jogo quando há vencedor — host pode continuar para 2º e 3º lugar
+          this.gameFinished = false;
           
           // Carrega tema se necessário
           if (this.theme && this.themeData.length === 0) {
@@ -729,12 +731,12 @@ export default {
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(128, 128, 128, 0.3);
 }
 
 .modal-header h2 {
   margin: 0;
-  color: white;
+  color: var(--text-color);
 }
 
 .btn-close-modal {
@@ -773,8 +775,9 @@ export default {
   border-radius: 12px;
   min-height: 140px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  color: white;
+  color: #fff;
   text-align: center;
+  /* Cartas têm fundo colorido do tema; texto claro para contraste */
 }
 
 .drawn-number-card-modal .drawn-number-image {
@@ -1046,7 +1049,8 @@ export default {
 }
 
 .modal-content {
-  background: #ffffff;
+  background: var(--background-color);
+  color: var(--text-color);
   padding: 30px;
   border-radius: 12px;
   text-align: center;
@@ -1056,7 +1060,7 @@ export default {
 
 .modal-content h2 {
   margin-bottom: 15px;
-  color: #f44336;
+  color: var(--text-color);
 }
 
 .warning-text {

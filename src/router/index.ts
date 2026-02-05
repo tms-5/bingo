@@ -6,10 +6,12 @@ import JoinRoom from '../views/JoinRoomPage.vue';
 import GameRoom from '../views/GameRoomPage.vue';
 import HostRoom from '../views/HostRoomPage.vue';
 import HostLogin from '../views/HostLoginPage.vue';
+import HostLanding from '../views/HostLandingPage.vue';
 import CardPage from '../views/CardPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', component: Home },
+  { path: '/host', component: HostLanding, name: 'HostLanding' },
   { path: '/create-room', component: CreateRoom, name: 'CreateRoom' },
   { path: '/join-room', component: JoinRoom, name: 'JoinRoom' },
   { path: '/host-login', component: HostLogin, name: 'HostLogin' },

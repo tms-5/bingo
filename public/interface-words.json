@@ -1,0 +1,254 @@
+[
+  {
+    "word": "Marlon",
+    "color": "#FF6B6B",
+    "image": "/img-interface/marlon.png",
+    "number": 1
+  },
+  {
+    "word": "Thami",
+    "color": "#4ECDC4",
+    "image": "/img-interface/thami.png",
+    "number": 2
+  },
+  {
+    "word": "Vitor",
+    "color": "#FFDAB9",
+    "image": "/img-interface/vitor.png",
+    "number": 3
+  },
+  {
+    "word": "Bruno",
+    "color": "#58D68D",
+    "image": "/img-interface/bruno.png",
+    "number": 4
+  },
+  {
+    "word": "Felipe",
+    "color": "#CD97FF",
+    "image": "/img-interface/felipe.png",
+    "number": 5
+  },
+  {
+    "word": "Lahana",
+    "color": "#FFA07A",
+    "image": "/img-interface/lahana.png",
+    "number": 6
+  },
+  {
+    "word": "Letícia",
+    "color": "#5DADE2",
+    "image": "/img-interface/leticia.png",
+    "number": 7
+  },
+  {
+    "word": "Well",
+    "color": "#F7DC6F",
+    "image": "/img-interface/well.png",
+    "number": 8
+  },
+  {
+    "word": "Jornada do cliente",
+    "color": "#BB8FCE",
+    "image": "/img-interface/jornada-cliente.png",
+    "number": 9
+  },
+  {
+    "word": "Ahgora multi",
+    "color": "#85C1E2",
+    "image": "/img-interface/ahgora-multi.png",
+    "number": 10
+  },
+  {
+    "word": "Férias",
+    "color": "#F8B739",
+    "image": "/img-interface/ferias.png",
+    "number": 11
+  },
+  {
+    "word": "Bug em prod",
+    "color": "#5DADE2",
+    "image": "/img-interface/bug-prod.png",
+    "number": 12
+  },
+  {
+    "word": "Agile daily",
+    "color": "#58D68D",
+    "image": "/img-interface/agile-daily.png",
+    "number": 13
+  },
+  {
+    "word": "Jira",
+    "color": "#58D68D",
+    "image": "/img-interface/jira-logo.png",
+    "number": 14
+  },
+  {
+    "word": "Reprovados na poc",
+    "color": "#F8B739",
+    "image": "/img-interface/reprovado.png",
+    "number": 15
+  },
+  {
+    "word": "Bloqueio IA",
+    "color": "#F1948A",
+    "image": "/img-interface/bloqueio-IA.png",
+    "number": 16
+  },
+  {
+    "word": "B3 GPT",
+    "color": "#5DADE2",
+    "image": "/img-interface/b3-GPT.png",
+    "number": 17
+  },
+  {
+    "word": "B3",
+    "color": "#58D68D",
+    "image": "/img-interface/b3.png",
+    "number": 18
+  },
+  {
+    "word": "Falecido Leo",
+    "color": "#A68D58",
+    "image": "/img-interface/falecido-leo.png",
+    "number": 19
+  },
+  {
+    "word": "Fabio",
+    "color": "#58A68D",
+    "image": "/img-interface/fabio.png",
+    "number": 20
+  },
+  {
+    "word": "NeoSecWay",
+    "color": "#58A68D",
+    "image": "/img-interface/neosecway.png",
+    "number": 21
+  },
+  {
+    "word": "Retro interface",
+    "color": "#AACFEE",
+    "image": "/img-interface/retro.png",
+    "number": 22
+  },
+  {
+    "word": "Neoway",
+    "color": "#FFC300",
+    "image": "/img-interface/neoway.png",
+    "number": 23
+  },
+  {
+    "word": "Treinamento obrigatório",
+    "color": "#F8B739",
+    "image": "/img-interface/treinamento-obrigatorio.png",
+    "number": 24
+  },
+  {
+    "word": "Phishing",
+    "color": "#58A68D",
+    "image": "/img-interface/phishing.png",
+    "number": 25
+  },
+  {
+    "word": "Daily",
+    "color": "#85C1E2",
+    "image": "/img-interface/daily.png",
+    "number": 26
+  },
+  {
+    "word": "Search",
+    "color": "#F8B739",
+    "image": "/img-interface/search.png",
+    "number": 27
+  },
+  {
+    "word": "Search sales",
+    "color": "#58A68D",
+    "image": "/img-interface/search-sales.png",
+    "number": 28
+  },
+  {
+    "word": "Sanbox",
+    "color": "#58A68D",
+    "image": "/img-interface/sandbox.png",
+    "number": 29
+  },
+  {
+    "word": "Trillia",
+    "color": "#0b5fff",
+    "image": "/img-interface/trillia.png",
+    "number": 30
+  },
+  {
+    "word": "Cursor",
+    "color": "#008000",
+    "image": "/img-interface/cursor.png",
+    "number": 31
+  },
+  {
+    "word": "Gemini",
+    "color": "#ffd700",
+    "image": "/img-interface/gemini.png",
+    "number": 31
+  },
+  {
+    "word": "Fiscalização da leticia",
+    "color": "#0b5fff",
+    "image": "/img-interface/fiscalizacao-da-leticia.jpg",
+    "number": 32
+  },
+  {
+    "word": "Dex",
+    "color": "#008000",
+    "image": "/img-interface/dex.png",
+    "number": 33
+  },
+  {
+    "word": "Radar de bugs",
+    "color": "#ff0000",
+    "image": "/img-interface/radar-de-bugs.jpg",
+    "number": 34
+  },
+  {
+    "word": "Teams",
+    "color": "#008000",
+    "image": "/img-interface/teams.png",
+    "number": 35
+  },
+  {
+    "word": "Clib",
+    "color": "#0b5fff",
+    "image": "/img-interface/clib.png",
+    "number": 36
+  },
+  {
+    "word": "Interface core",
+    "color": "#f2f2f2",
+    "image": "/img-interface/interface.png",
+    "number": 37
+  },
+  {
+    "word": "Interface core",
+    "color": "#0b5fff",
+    "image": "/img-interface/floresta-digital.png",
+    "number": 38
+  },
+  {
+    "word": "Deploy na sexta",
+    "color": "#008000",
+    "image": "/img-interface/deploy-na-sexta.jpg",
+    "number": 39
+  },
+  {
+    "word": "Deploy na sexta",
+    "color": "#008000",
+    "image": "/img-interface/deploy-sexta.jpg",
+    "number": 39
+  },
+  {
+    "word": "Git rebase",
+    "color": "#008000",
+    "image": "/img-interface/rebase.jpg",
+    "number": 40
+  }
+]

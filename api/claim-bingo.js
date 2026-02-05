@@ -34,8 +34,8 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Usuário não encontrado' });
     }
 
-    if (user.has_bingo && user.is_winner) {
-      return res.status(400).json({ error: 'Usuário já ganhou e não pode mais jogar' });
+    if (user.has_bingo) {
+      return res.status(400).json({ error: 'Você já reivindicou bingo e não pode reivindicar novamente.' });
     }
 
     const drawn_numbers = room.drawn_numbers || [];
@@ -109,15 +109,20 @@ export default async function handler(req, res) {
       if (hasBingo) break;
     }
 
-    // Adiciona o claim de bingo na sala
+    // Adiciona o claim de bingo na sala (só uma entrada por usuário — evita spam)
     const bingo_claims = room.bingo_claims || [];
+    const existingIndex = bingo_claims.findIndex(c => c.user_id === user_id);
     const claim = {
       user_id,
       user_name: user.user_name,
       timestamp,
       is_valid: hasBingo,
     };
-    bingo_claims.push(claim);
+    if (existingIndex >= 0) {
+      bingo_claims[existingIndex] = claim;
+    } else {
+      bingo_claims.push(claim);
+    }
 
     // Atualiza a sala
     await db.collection('rooms').updateOne(
@@ -130,15 +135,15 @@ export default async function handler(req, res) {
       }
     );
 
-    // Atualiza o usuário
+    // Atualiza o usuário: após qualquer reivindicação não pode mais apertar bingo
     await db.collection('users').updateOne(
       { user_id, room_id },
       { 
         $set: { 
-          has_bingo: hasBingo,
+          has_bingo: true,   // já reivindicou (válido ou não) — não pode apertar de novo
           is_winner: hasBingo,
           bingo_claimed_at: timestamp,
-          cards, // Salva as cartelas
+          cards,
         } 
       }
     );

@@ -61,11 +61,8 @@ export default {
   data() {
     return {
         links: [
-            { name: 'Home', url: '/' },
-            { name: 'Entrar na sala', url: '/join-room' },
-            { name: 'Criar sala', url: '/create-room' },
-            { name: 'Entrar como host', url: '/host-login' },
-            { name: 'Gerar cartelas', url: '/card' },
+            { name: 'Jogador', url: '/join-room' },
+            { name: 'Host', url: '/host' },
         ],
         hasSession: false,
         sessionText: '',

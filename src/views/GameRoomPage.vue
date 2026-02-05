@@ -27,7 +27,13 @@
     <div v-else class="game-container">
       <!-- Cartela -->
       <div class="cards-container">
-        <div class="bingo-card-wrapper">
+        <div class="card-zoom-controls">
+          <span class="zoom-label">Tamanho da cartela:</span>
+          <button type="button" class="btn-zoom" @click="cardZoom = Math.max(1, cardZoom - 1)" title="Diminuir">−</button>
+          <span class="zoom-value">{{cardZoom }}%</span>
+          <button type="button" class="btn-zoom" @click="cardZoom = Math.min(100, cardZoom + 1)" title="Aumentar">+</button>
+        </div>
+        <div class="bingo-card-wrapper" :style="{ width: `${cardZoom}%`, transformOrigin: 'top center' }">
           <h3>Minha Cartela</h3>
           <div class="bingo-grid">
             <div v-for="(row, rowIndex) in card" :key="rowIndex" class="bingo-row">
@@ -134,12 +140,14 @@ export default {
       markedNumbers: { 0: [] }, // Apenas uma cartela (índice 0)
       bingoClaimed: false,
       isWinner: false,
+      gameHasWinner: false, // Já existe vencedor na sala (desabilita botão Bingo para todos)
       bingoClaims: [],
       showResultModal: false,
       bingoResult: null,
       showAvatarSelector: false,
       loading: false,
       pollInterval: null,
+      cardZoom: 60,
     };
   },
   async mounted() {
@@ -349,6 +357,18 @@ export default {
 
         const response = await fetch(`/api/get-room?room_id=${this.room_id}`);
 
+        if (response.status === 404) {
+          if (this.pollInterval) {
+            clearInterval(this.pollInterval);
+            this.pollInterval = null;
+          }
+          const { SessionManager } = await import('../utils/session.js');
+          SessionManager.clearUserSession();
+          alert('Sala não encontrada ou foi encerrada. Você foi removido da sala.');
+          this.$router.push('/join-room');
+          return;
+        }
+
         if (!response.ok) {
           throw new Error(`Erro ao buscar sala: ${response.status}`);
         }
@@ -359,6 +379,7 @@ export default {
           throw new Error('Sala não encontrada na resposta');
         }
 
+        this.gameHasWinner = !!data.room.winner;
         this.drawnNumbers = data.room.drawn_numbers.slice(data.room.drawn_numbers.length - 2).reverse();
         this.bingoClaims = data.room.bingo_claims || [];
 
@@ -849,11 +870,51 @@ export default {
   margin-bottom: 30px;
 }
 
+.card-zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.zoom-label {
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.btn-zoom {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 2px solid var(--bingo-blue-200);
+  background: var(--background-color);
+  color: var(--text-color);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-zoom:hover {
+  background: var(--bingo-blue-200);
+  color: white;
+}
+
+.zoom-value {
+  min-width: 3.5em;
+  color: var(--text-color);
+  font-size: 14px;
+}
+
 .bingo-card-wrapper {
   background: rgba(255, 255, 255, 0.215);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  justify-self: center;
 }
 
 .bingo-card-wrapper h3 {
@@ -1062,12 +1123,18 @@ export default {
 }
 
 .modal-content {
-  background: white;
+  background: var(--background-color);
+  color: var(--text-color);
   padding: 40px;
   border-radius: 12px;
   text-align: center;
   max-width: 500px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2,
+.modal-content p {
+  color: var(--text-color);
 }
 
 .modal-content h2 {
