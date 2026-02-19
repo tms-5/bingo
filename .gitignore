@@ -20,3 +20,6 @@ build/
 Thumbs.db
 
 package-lock.json
+
+/public/img-interface
+/public/img
