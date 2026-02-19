@@ -168,7 +168,7 @@
     "number": 28
   },
   {
-    "word": "Sanbox",
+    "word": "Sandbox",
     "color": "#58A68D",
     "image": "/img-interface/sandbox.png",
     "number": 29
@@ -228,9 +228,9 @@
     "number": 37
   },
   {
-    "word": "Interface core",
+    "word": "Finado slack",
     "color": "#0b5fff",
-    "image": "/img-interface/floresta-digital.png",
+    "image": "/img-interface/slack.png",
     "number": 38
   },
   {
@@ -240,9 +240,9 @@
     "number": 39
   },
   {
-    "word": "Deploy na sexta",
+    "word": "Murta",
     "color": "#008000",
-    "image": "/img-interface/deploy-sexta.jpg",
+    "image": "/img-interface/murta.jpg",
     "number": 39
   },
   {
