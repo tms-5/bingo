@@ -17,6 +17,12 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// LOG DE DEBUG: Mostra cada requisição que chega no servidor
+app.use((req, res, next) => {
+  console.log(`📥 [API] ${req.method} ${req.url}`);
+  next();
+});
+
 // Importa as APIs
 import createRoom from './api/create-room.js';
 import joinRoom from './api/join-room.js';
@@ -24,6 +30,7 @@ import getRoom from './api/get-room.js';
 import drawNumber from './api/draw-number.js';
 import claimBingo from './api/claim-bingo.js';
 import saveCards from './api/save-cards.js';
+import restartGame from './api/restart-game.js';
 import verifyHost from './api/verify-host.js';
 import deleteRoom from './api/delete-room.js';
 import deleteUser from './api/delete-user.js';
@@ -99,10 +106,11 @@ app.all('/api/save-cards', vercelHandler(saveCards));
 app.all('/api/verify-host', vercelHandler(verifyHost));
 app.all('/api/delete-room', vercelHandler(deleteRoom));
 app.all('/api/delete-user', vercelHandler(deleteUser));
+app.all('/api/restart-game', vercelHandler(restartGame));
 app.all('/api/update-avatar', vercelHandler(updateAvatar));
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor API rodando em http://localhost:${PORT}`);
+  
   console.log(`📝 MONGODB_URI: ${process.env.MONGODB_URI ? 'Configurada ✓' : 'NÃO CONFIGURADA ✗'}`);
 });
-

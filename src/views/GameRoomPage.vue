@@ -28,10 +28,30 @@
       <!-- Cartela -->
       <div class="cards-container">
         <div class="card-zoom-controls">
+          <!-- Controles de Troca de Cartela (Apenas antes do jogo começar) -->
+          <div v-if="drawnNumbers.length === 0 && !isWinner && !bingoClaimed" class="card-change-controls">
+            <template v-if="!hasPendingChanges">
+              <button @click="shuffleCardLocal" class="btn-secondary btn-sm">
+                🔄 Trocar Cartela
+              </button>
+            </template>
+            <template v-else>
+              <span class="pending-label">Confirmar nova cartela?</span>
+              <button @click="shuffleCardLocal" class="btn-secondary btn-sm">
+                🔄 Outra
+              </button>
+              <button @click="confirmCardChange" class="btn-success btn-sm">
+                ✅ Confirmar
+              </button>
+              <button @click="cancelCardChange" class="btn-danger btn-sm">
+                ❌ Cancelar
+              </button>
+            </template>
+          </div>
           <span class="zoom-label">Tamanho da cartela:</span>
-          <button type="button" class="btn-zoom" @click="cardZoom = Math.max(1, cardZoom - 1)" title="Diminuir">−</button>
+          <button type="button" class="btn-zoom" @click="cardZoom = Math.max(10, cardZoom - 10)" title="Diminuir">−</button>
           <span class="zoom-value">{{cardZoom }}%</span>
-          <button type="button" class="btn-zoom" @click="cardZoom = Math.min(100, cardZoom + 1)" title="Aumentar">+</button>
+          <button type="button" class="btn-zoom" @click="cardZoom = Math.min(100, cardZoom + 10)" title="Aumentar">+</button>
         </div>
         <div class="bingo-card-wrapper" :style="{ width: `${cardZoom}%`, transformOrigin: 'top center' }">
           <h3>Minha Cartela</h3>
@@ -94,7 +114,13 @@
             Parabéns! Seu bingo foi validado!
           </p>
           <p v-else>
-            Infelizmente seu bingo não foi válido. Continue jogando!
+            Infelizmente seu bingo não foi válido.
+            <template v-if="!bingoClaimed">
+              Você tem mais {{ 3 - invalidBingoCount }} tentativas. Continue jogando!
+            </template>
+            <template v-else>
+              Você excedeu o número máximo de tentativas inválidas.
+            </template>
           </p>
           <button @click="closeResultModal" class="btn-primary">OK</button>
         </div>
@@ -129,11 +155,13 @@ export default {
       room_name: '',
       user_id: null,
       user_name: '',
-      userAvatar: 1,
+      userAvatar: Math.floor(Math.random() * 33) + 1,
       theme: null,
       card_size: 16,
       themeData: [], // Dados do tema (JSON)
       card: [], // Uma única cartela
+      originalCard: null, // Para backup durante a troca
+      hasPendingChanges: false, // Se está em modo de edição
       cardsGenerated: false,
       loadingTheme: false,
       drawnNumbers: [],
@@ -144,6 +172,7 @@ export default {
       bingoClaims: [],
       showResultModal: false,
       bingoResult: null,
+      invalidBingoCount: 0,
       showAvatarSelector: false,
       loading: false,
       pollInterval: null,
@@ -168,8 +197,14 @@ export default {
     this.user_id = sessionData.user_id;
     this.user_name = sessionData.user_name;
     this.room_name = verification.room?.room_name || sessionData.room_name;
-    this.userAvatar = verification.user?.avatar || sessionData.avatar || 1;
+    this.userAvatar = verification.user?.avatar || sessionData.avatar || Math.floor(Math.random() * 33) + 1;
     
+    // Se o avatar for o padrão (1), gera um novo aleatório no cliente e salva
+    if (this.userAvatar === 1) {
+      this.userAvatar = Math.floor(Math.random() * 33) + 1;
+      this.handleAvatarSelect(this.userAvatar);
+    }
+
     // Atualiza sessão com dados mais recentes
     SessionManager.saveUserSession({
       ...sessionData,
@@ -194,7 +229,10 @@ export default {
     // Verifica se o usuário já tem cartela no banco e carrega avatar
     const user = await this.getUserFromServer();
     if (user && user.avatar) {
-      this.userAvatar = user.avatar;
+      // Só atualiza se o avatar do servidor não for o padrão (1)
+      if (user.avatar !== 1) {
+        this.userAvatar = user.avatar;
+      }
       // Atualiza localStorage
       const session = JSON.parse(localStorage.getItem('user_session'));
       if (session) {
@@ -266,12 +304,19 @@ export default {
       if (!this.themeData || this.themeData.length === 0) {
         await this.loadTheme();
       }
+        
+        // Salva o estado inicial como original
+        this.originalCard = JSON.parse(JSON.stringify(this.card));
 
       this.cardsGenerated = true;
       this.loadingTheme = false;
       // Tenta recuperar números marcados do localStorage (usando room_id)
       const savedMarked = localStorage.getItem(`marked_${this.room_id}_${this.user_name}`);
-      if (savedMarked) {
+      
+      // Se o jogo não tem números sorteados (foi reiniciado), começa limpo
+      if (this.drawnNumbers.length === 0) {
+        this.markedNumbers = { 0: [] };
+      } else if (savedMarked) {
         try {
           this.markedNumbers = JSON.parse(savedMarked);
         } catch (e) {
@@ -321,6 +366,9 @@ export default {
             if (!this.themeData || this.themeData.length === 0) {
               await this.loadTheme();
             }
+            
+            // Salva o estado inicial como original
+            this.originalCard = JSON.parse(JSON.stringify(this.card));
 
             this.markedNumbers = cardData.markedNumbers || { 0: [] };
             this.cardsGenerated = true;
@@ -355,16 +403,25 @@ export default {
           return;
         }
 
-        const response = await fetch(`/api/get-room?room_id=${this.room_id}`);
+        // Passa user_id para filtrar dados e verificar se ainda está na sala
+        const response = await fetch(`/api/get-room?room_id=${this.room_id}&user_id=${this.user_id}`);
 
         if (response.status === 404) {
+          const data = await response.json().catch(() => ({}));
+          
           if (this.pollInterval) {
             clearInterval(this.pollInterval);
             this.pollInterval = null;
           }
           const { SessionManager } = await import('../utils/session.js');
           SessionManager.clearUserSession();
-          alert('Sala não encontrada ou foi encerrada. Você foi removido da sala.');
+          
+          if (data.user_kicked) {
+            alert('Você foi removido da sala pelo host.');
+          } else {
+            alert('Sala não encontrada ou foi encerrada.');
+          }
+          
           this.$router.push('/join-room');
           return;
         }
@@ -380,7 +437,15 @@ export default {
         }
 
         this.gameHasWinner = !!data.room.winner;
-        this.drawnNumbers = data.room.drawn_numbers.slice(data.room.drawn_numbers.length - 2).reverse();
+        
+        const allDrawnNumbers = data.room.drawn_numbers || [];
+        
+        // Se o jogo começou (tem números sorteados) e o usuário tem trocas pendentes, reverte
+        if (allDrawnNumbers.length > 0 && this.hasPendingChanges) {
+          this.cancelCardChange();
+        }
+
+        this.drawnNumbers = allDrawnNumbers.slice(allDrawnNumbers.length - 2).reverse();
         this.bingoClaims = data.room.bingo_claims || [];
 
         // Atualiza theme e card_size (usa valores padrão se não existirem)
@@ -391,6 +456,19 @@ export default {
           this.theme = data.room.theme || this.theme;
         }
         this.card_size = data.room.card_size || this.card_size || 16;
+
+        // Detecta reinício de jogo: tinha números antes e agora zerou
+        // (Movido para depois da atualização do tema para garantir que generateNewCard funcione)
+        if (this.drawnNumbers.length > 0 && allDrawnNumbers.length === 0) {
+          this.markedNumbers = { 0: [] };
+          this.saveCard();
+          this.invalidBingoCount = 0;
+          this.showResultModal = false;
+          this.bingoResult = null;
+          // Gera nova cartela automaticamente ao reiniciar o jogo
+          await this.generateNewCard();
+          this.hasPendingChanges = false;
+        }
 
         // Atualiza room_name se estiver na resposta
         if (data.room.room_name) {
@@ -403,6 +481,12 @@ export default {
           if (user) {
             this.isWinner = user.is_winner;
             this.bingoClaimed = user.has_bingo;
+            
+            // Evita flicker (race condition): só atualiza se o valor novo for maior ou se o jogo reiniciou
+            const newCount = user.invalid_bingo_count || 0;
+            if (newCount >= this.invalidBingoCount || allDrawnNumbers.length === 0) {
+              this.invalidBingoCount = newCount;
+            }
           }
         }
       } catch (error) {
@@ -500,6 +584,66 @@ export default {
         alert(`Erro ao gerar cartela: ${error.message}. Tente recarregar a página.`);
       }
     },
+    shuffleCardLocal() {
+      if (!this.themeData || this.themeData.length === 0) return;
+
+      // Se é a primeira vez que clica em trocar, salva o backup
+      if (!this.hasPendingChanges) {
+        this.originalCard = JSON.parse(JSON.stringify(this.card));
+        this.hasPendingChanges = true;
+      }
+
+      try {
+        const size = Math.sqrt(this.card_size);
+        const rows = Math.floor(size);
+        const cols = Math.ceil(this.card_size / rows);
+
+        // Embaralha
+        const shuffled = [...this.themeData].sort(() => Math.random() - 0.5);
+
+        const newCard = [];
+        let itemIndex = 0;
+
+        for (let i = 0; i < rows; i++) {
+          const row = [];
+          for (let j = 0; j < cols && itemIndex < this.card_size; j++) {
+            const item = shuffled[itemIndex % shuffled.length];
+            const cellData = {
+              number: item.number || itemIndex + 1,
+              word: item.word || `Item ${itemIndex + 1}`,
+              color: item.color || '#f0f0f0',
+              image: item.image || '',
+            };
+            row.push(cellData);
+            itemIndex++;
+          }
+          newCard.push(row);
+        }
+
+        this.card = newCard;
+        // Limpa marcações visualmente enquanto troca
+        this.markedNumbers = { 0: [] };
+        
+      } catch (error) {
+        console.error('Erro ao embaralhar localmente:', error);
+      }
+    },
+    confirmCardChange() {
+      // Salva a nova cartela no backend e localStorage
+      this.saveCard();
+      // Atualiza o original para o novo confirmado
+      this.originalCard = JSON.parse(JSON.stringify(this.card));
+      this.hasPendingChanges = false;
+    },
+    cancelCardChange() {
+      if (this.originalCard) {
+        this.card = JSON.parse(JSON.stringify(this.originalCard));
+        // Recupera as marcações salvas no localStorage se houver (embora antes do jogo começar não deva ter muitas)
+        const savedMarked = localStorage.getItem(`marked_${this.room_id}_${this.user_name}`);
+        this.markedNumbers = savedMarked ? JSON.parse(savedMarked) : { 0: [] };
+      }
+      this.hasPendingChanges = false;
+    },
     generateCard() {
       if (!this.themeData || this.themeData.length === 0) {
         console.error('Tema não carregado');
@@ -564,6 +708,9 @@ export default {
         this.cardsGenerated = true;
         this.markedNumbers = { 0: [] };
         this.loadingTheme = false;
+
+        // Define o original
+        this.originalCard = JSON.parse(JSON.stringify(this.card));
 
         // Salva cartela
         this.saveCard();
@@ -655,7 +802,8 @@ export default {
           throw new Error(data.error || 'Erro ao validar bingo');
         }
 
-        this.bingoClaimed = true;
+        this.bingoClaimed = data.is_blocked;
+        this.invalidBingoCount = data.invalid_bingo_count || 0;
         this.bingoResult = data.claim;
         this.showResultModal = true;
 
@@ -876,6 +1024,48 @@ export default {
   gap: 10px;
   margin-bottom: 12px;
   flex-wrap: wrap;
+}
+
+.card-change-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto; /* Empurra o zoom para a direita */
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.btn-sm:hover {
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-success {
+  background: #28a745;
+  color: white;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.pending-label {
+  font-size: 14px;
+  color: var(--text-color);
+  font-weight: 600;
 }
 
 .zoom-label {

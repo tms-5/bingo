@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       
       // Atualiza last_seen e avatar (se fornecido)
       const updateData = { last_seen: new Date() };
-      if (avatar) {
+      if (avatar && avatar != 1) {
         updateData.avatar = avatar;
       }
       await db.collection('users').updateOne(
@@ -81,7 +81,7 @@ export default async function handler(req, res) {
           user_id,
           room_id,
           user_name,
-          avatar: avatar || 1, // Avatar padrão é 1 se não fornecido
+          avatar: (avatar && avatar != 1) ? avatar : Math.floor(Math.random() * 33) + 1, // Avatar aleatório se não fornecido ou se for 1 (padrão)
           cards: [], // Array de cartelas do usuário
           has_bingo: false,
           bingo_claimed_at: null,
@@ -125,11 +125,10 @@ export default async function handler(req, res) {
       room_id,
       user_name,
       room_name: room.room_name,
-      avatar: finalUser?.avatar || avatar || 1,
+      avatar: finalUser?.avatar || (avatar && avatar != 1 ? avatar : Math.floor(Math.random() * 33) + 1),
     });
   } catch (error) {
     console.error('Erro ao entrar na sala:', error);
     return res.status(500).json({ error: 'Erro ao entrar na sala' });
   }
 }
-

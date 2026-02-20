@@ -109,6 +109,13 @@ export default async function handler(req, res) {
       if (hasBingo) break;
     }
 
+    // Lógica de tentativas inválidas
+    let invalidCount = user.invalid_bingo_count || 0;
+    if (!hasBingo) {
+      invalidCount++;
+    }
+    const isBlocked = hasBingo || invalidCount >= 3;
+
     // Adiciona o claim de bingo na sala (só uma entrada por usuário — evita spam)
     const bingo_claims = room.bingo_claims || [];
     const existingIndex = bingo_claims.findIndex(c => c.user_id === user_id);
@@ -140,10 +147,11 @@ export default async function handler(req, res) {
       { user_id, room_id },
       { 
         $set: { 
-          has_bingo: true,   // já reivindicou (válido ou não) — não pode apertar de novo
+          has_bingo: isBlocked,   // Bloqueia apenas se ganhou ou excedeu tentativas
           is_winner: hasBingo,
           bingo_claimed_at: timestamp,
           cards,
+          invalid_bingo_count: invalidCount,
         } 
       }
     );
@@ -153,10 +161,11 @@ export default async function handler(req, res) {
       has_bingo: hasBingo,
       claim,
       bingo_claims,
+      is_blocked: isBlocked,
+      invalid_bingo_count: invalidCount,
     });
   } catch (error) {
     console.error('Erro ao validar bingo:', error);
     return res.status(500).json({ error: 'Erro ao validar bingo' });
   }
 }
-

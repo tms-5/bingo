@@ -151,6 +151,9 @@
         
         <!-- Botão de encerrar jogo -->
         <div class="end-game-section">
+          <button @click="restartGame" class="btn-restart-game">
+            🔄 Reiniciar Jogo
+          </button>
           <button @click="endGame" class="btn-end-game">
             Encerrar Jogo
           </button>
@@ -403,6 +406,12 @@ export default {
           }),
         });
         
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          console.error('Resposta não-JSON recebida:', await response.text());
+          throw new Error('Erro: A rota /api/restart-game não foi encontrada. Tente reiniciar o servidor.');
+        }
+
         const data = await response.json();
         
         if (!response.ok) {
@@ -527,6 +536,58 @@ export default {
       } finally {
         this.loading = false;
         this.showEndGameModal = false;
+      }
+    },
+    async restartGame() {
+      if (!confirm('ATENÇÃO: Isso irá reiniciar o jogo atual!\n\n- Todos os números sorteados serão apagados.\n- Todos os bingos e vencedores serão resetados.\n- Os jogadores permanecerão na sala.\n\nDeseja continuar?')) {
+        return;
+      }
+      
+      this.loading = true;
+      
+      try {
+        const response = await fetch('/api/restart-game', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            room_id: this.room_id,
+            password_admin: this.password,
+          }),
+        });
+        
+        // Verifica se a resposta é JSON antes de tentar processar
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          if (response.status === 404) {
+            throw new Error('Backend não está com a rota /api/restart-game. Rode o backend e reinicie se já estiver rodando: npm run dev:api (ou npm run dev:all para front + backend).');
+          }
+          throw new Error(`Erro no servidor: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Erro ao reiniciar jogo');
+        }
+        
+        alert('Jogo reiniciado com sucesso!');
+        
+        // Limpa estado local imediatamente
+        this.drawnNumbers = [];
+        this.lastDrawnNumber = null;
+        this.bigNumberClosed = true;
+        this.bingoClaims = [];
+        this.winner = null;
+        this.gameFinished = false;
+        
+        await this.loadRoomData();
+      } catch (error) {
+        console.error('Erro ao reiniciar jogo:', error);
+        alert(error.message || 'Erro ao reiniciar jogo');
+      } finally {
+        this.loading = false;
       }
     },
   },
@@ -1018,6 +1079,24 @@ export default {
   border-top: 2px solid #ddd;
 }
 
+.btn-restart-game {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  background: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 15px;
+}
+
+.btn-restart-game:hover {
+  background: #f57c00;
+}
+
 .btn-end-game {
   width: 100%;
   padding: 15px;
@@ -1140,4 +1219,3 @@ export default {
   }
 }
 </style>
-
